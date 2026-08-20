@@ -56,14 +56,14 @@ export const MyOrders: React.FC = () => {
 
       {/* Filters & Search */}
       <div className="glass-card p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 absolute left-3.5 top-3 text-slate-500" />
+        <div className="relative w-full md:w-80 flex items-center">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none z-10" />
           <input
             type="text"
             placeholder="Search by order # or address..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full glass-input pl-10 text-sm"
+            className="w-full glass-input !pl-10 text-sm"
           />
         </div>
 

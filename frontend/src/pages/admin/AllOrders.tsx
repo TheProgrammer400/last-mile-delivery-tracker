@@ -130,14 +130,14 @@ export const AllOrders: React.FC = () => {
 
       {/* Filters Bar */}
       <div className="glass-card p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
+        <div className="relative flex items-center">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none z-10" />
           <input
             type="text"
             placeholder="Search order # or customer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full glass-input pl-9 text-xs"
+            className="w-full glass-input !pl-10 text-xs"
           />
         </div>
 

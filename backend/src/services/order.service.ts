@@ -69,6 +69,8 @@ export class OrderService {
           actualWeightKg: input.actualWeightKg,
           volumetricWeightKg: calculatedQuote.volumetricWeightKg,
           chargeableWeightKg: calculatedQuote.chargeableWeightKg,
+          distanceKm: calculatedQuote.distanceKm,
+          chargePerKm: calculatedQuote.chargePerKm,
           orderType: input.orderType,
           paymentType: input.paymentType,
           rateCardIdUsed: calculatedQuote.rateCardId,

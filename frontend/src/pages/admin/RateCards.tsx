@@ -14,8 +14,9 @@ export const RateCards: React.FC = () => {
   const [isRateModalOpen, setIsRateModalOpen] = useState(false);
   const [orderType, setOrderType] = useState<'B2B' | 'B2C'>('B2C');
   const [rateType, setRateType] = useState<'INTRA_ZONE' | 'INTER_ZONE'>('INTRA_ZONE');
+  const [chargePerKm, setChargePerKm] = useState<number>(8);
   const [ratePerKg, setRatePerKg] = useState<number>(10);
-  const [baseFee, setBaseFee] = useState<number>(30);
+  const [baseFee, setBaseFee] = useState<number>(0);
 
   // New COD Modal
   const [isCodModalOpen, setIsCodModalOpen] = useState(false);
@@ -47,7 +48,7 @@ export const RateCards: React.FC = () => {
     setError(null);
     setIsSubmitting(true);
     try {
-      await createRateCardApi({ orderType, rateType, ratePerKg, baseFee });
+      await createRateCardApi({ orderType, rateType, chargePerKm, ratePerKg, baseFee });
       setIsRateModalOpen(false);
       await fetchData();
     } catch (err: any) {
@@ -126,7 +127,7 @@ export const RateCards: React.FC = () => {
                   <tr>
                     <th className="p-3">Order Type</th>
                     <th className="p-3">Route Type</th>
-                    <th className="p-3">Base Fee</th>
+                    <th className="p-3">Charge / Km</th>
                     <th className="p-3">Rate / Kg</th>
                     <th className="p-3">Status</th>
                   </tr>
@@ -136,8 +137,8 @@ export const RateCards: React.FC = () => {
                     <tr key={rc.id} className={rc.isActive ? 'bg-slate-900/30' : 'opacity-50'}>
                       <td className="p-3 font-semibold text-slate-200">{rc.orderType}</td>
                       <td className="p-3 font-mono">{rc.rateType}</td>
-                      <td className="p-3 font-mono">₹{Number(rc.baseFee).toFixed(2)}</td>
-                      <td className="p-3 font-mono">₹{Number(rc.ratePerKg).toFixed(2)}</td>
+                      <td className="p-3 font-mono text-indigo-400 font-bold">₹{Number(rc.chargePerKm || 8).toFixed(2)}/km</td>
+                      <td className="p-3 font-mono">₹{Number(rc.ratePerKg).toFixed(2)}/kg</td>
                       <td className="p-3">
                         {rc.isActive ? (
                           <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-medium">
@@ -203,8 +204,8 @@ export const RateCards: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Base Fee (₹)</label>
-              <input type="number" step="0.5" min="0" required value={baseFee} onChange={(e) => setBaseFee(Number(e.target.value))} className="w-full glass-input text-sm" />
+              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Charge Per Km (₹)</label>
+              <input type="number" step="0.5" min="0.1" required value={chargePerKm} onChange={(e) => setChargePerKm(Number(e.target.value))} className="w-full glass-input text-sm" />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Rate / Kg (₹)</label>

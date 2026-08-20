@@ -206,8 +206,14 @@ export const OrderDetail: React.FC = () => {
                 <span>Payment Type</span>
                 <span className="text-slate-200 font-medium">{order.paymentType}</span>
               </div>
+              {order.distanceKm ? (
+                <div className="flex justify-between text-slate-400">
+                  <span>Road Distance</span>
+                  <span className="text-slate-200 font-medium">{order.distanceKm} km</span>
+                </div>
+              ) : null}
               <div className="flex justify-between text-slate-400">
-                <span>Base Handling Fee</span>
+                <span>Distance Base Fee</span>
                 <span className="font-mono text-slate-200">₹{Number(order.baseFee).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-slate-400">

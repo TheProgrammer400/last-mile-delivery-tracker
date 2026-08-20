@@ -41,8 +41,9 @@ export async function getRateCardsApi(activeOnly: boolean = false): Promise<Rate
 export async function createRateCardApi(data: {
   orderType: string;
   rateType: string;
+  chargePerKm?: number;
   ratePerKg: number;
-  baseFee: number;
+  baseFee?: number;
 }): Promise<RateCard> {
   return apiFetch<RateCard>('/admin/rate-cards', {
     method: 'POST',

@@ -1,10 +1,13 @@
 import { OrderType, PaymentType, RateType } from '@prisma/client';
 import { prisma } from '../utils/prisma';
 import { BadRequestError, UnprocessableEntityError } from '../utils/errors';
+import { DistanceService } from './distance.service';
 
 export interface RateQuoteInput {
   pickupAreaId: string;
   dropAreaId: string;
+  pickupAddress?: string;
+  dropAddress?: string;
   lengthCm: number;
   breadthCm: number;
   heightCm: number;
@@ -18,6 +21,8 @@ export interface RateQuoteResult {
   chargeableWeightKg: number;
   rateType: RateType;
   rateCardId: string;
+  distanceKm: number;
+  chargePerKm: number;
   baseFee: number;
   ratePerKg: number;
   weightCharge: number;
@@ -52,14 +57,25 @@ export class RateEngineService {
     // 2. Determine INTRA_ZONE vs INTER_ZONE
     const rateType = pickupArea.zoneId === dropArea.zoneId ? RateType.INTRA_ZONE : RateType.INTER_ZONE;
 
-    // 3. Compute Volumetric and Chargeable weight
+    // 3. Calculate driving distance using Google Maps Distance Service
+    const origin = input.pickupAddress ? `${input.pickupAddress}, ${pickupArea.name}` : pickupArea.name;
+    const destination = input.dropAddress ? `${input.dropAddress}, ${dropArea.name}` : dropArea.name;
+
+    const distanceKm = await DistanceService.getDrivingDistance(
+      origin,
+      destination,
+      pickupArea.name,
+      dropArea.name
+    );
+
+    // 4. Compute Volumetric and Chargeable weight
     // Formula: (L x B x H) / 5000
     const rawVolumetric = (input.lengthCm * input.breadthCm * input.heightCm) / 5000;
     // Round to 2 decimal places cleanly
     const volumetricWeightKg = Math.round(rawVolumetric * 100) / 100;
     const chargeableWeightKg = Math.max(input.actualWeightKg, volumetricWeightKg);
 
-    // 4. Lookup active RateCard for (orderType, rateType)
+    // 5. Lookup active RateCard for (orderType, rateType)
     const rateCard = await prisma.rateCard.findFirst({
       where: {
         orderType: input.orderType,
@@ -75,11 +91,16 @@ export class RateEngineService {
       );
     }
 
-    const baseFee = Number(rateCard.baseFee);
+    const chargePerKm = Number(rateCard.chargePerKm);
     const ratePerKg = Number(rateCard.ratePerKg);
+
+    // NEW BASE FEE LOGIC: Base Fee = Distance (km) x Charge Per Km
+    const baseFee = Math.round(distanceKm * chargePerKm * 100) / 100;
+
+    // PRESERVED LOGIC: Weight Charge = Chargeable Weight x Rate Per Kg
     const weightCharge = Math.round(chargeableWeightKg * ratePerKg * 100) / 100;
 
-    // 5. COD Surcharge application
+    // PRESERVED LOGIC: COD Surcharge application
     let codSurcharge = 0;
     if (input.paymentType === PaymentType.COD) {
       const surchargeRecord = await prisma.codSurcharge.findFirst({
@@ -100,6 +121,8 @@ export class RateEngineService {
       chargeableWeightKg,
       rateType,
       rateCardId: rateCard.id,
+      distanceKm,
+      chargePerKm,
       baseFee,
       ratePerKg,
       weightCharge,

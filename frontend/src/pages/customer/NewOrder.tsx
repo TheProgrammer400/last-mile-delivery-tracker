@@ -389,7 +389,9 @@ export const NewOrder: React.FC = () => {
           {/* Fee Table */}
           <div className="space-y-2 text-sm">
             <div className="flex justify-between py-1.5 border-b border-slate-800/60">
-              <span className="text-slate-400">Base Handling Fee</span>
+              <span className="text-slate-400">
+                Base Fee (<strong className="text-slate-200">{quote.distanceKm} km</strong> × ₹{quote.chargePerKm}/km)
+              </span>
               <span className="font-mono text-slate-200">₹{quote.baseFee.toFixed(2)}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-slate-800/60">

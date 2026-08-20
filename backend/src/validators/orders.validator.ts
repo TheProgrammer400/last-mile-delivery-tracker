@@ -4,6 +4,8 @@ import { OrderType, PaymentType, OrderStatus } from '@prisma/client';
 export const quoteOrderSchema = z.object({
   pickupAreaId: z.string().uuid('Invalid pickupAreaId format'),
   dropAreaId: z.string().uuid('Invalid dropAreaId format'),
+  pickupAddress: z.string().optional(),
+  dropAddress: z.string().optional(),
   lengthCm: z.number().positive('lengthCm must be greater than 0'),
   breadthCm: z.number().positive('breadthCm must be greater than 0'),
   heightCm: z.number().positive('heightCm must be greater than 0'),

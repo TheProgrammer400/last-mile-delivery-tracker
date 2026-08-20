@@ -17,6 +17,9 @@ router.post('/', requireRole(Role.CUSTOMER, Role.ADMIN), OrdersController.create
 // List orders (Filtered by Role)
 router.get('/', OrdersController.list);
 
+// Get available areas for order placement (All authenticated users)
+router.get('/areas', OrdersController.getAreas);
+
 // Get order detail
 router.get('/:id', OrdersController.getById);
 

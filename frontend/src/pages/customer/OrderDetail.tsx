@@ -208,21 +208,21 @@ export const OrderDetail: React.FC = () => {
               </div>
               <div className="flex justify-between text-slate-400">
                 <span>Base Handling Fee</span>
-                <span className="font-mono text-slate-200">${Number(order.baseFee).toFixed(2)}</span>
+                <span className="font-mono text-slate-200">₹{Number(order.baseFee).toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-slate-400">
                 <span>Weight Charge ({order.chargeableWeightKg} kg)</span>
-                <span className="font-mono text-slate-200">${Number(order.weightCharge).toFixed(2)}</span>
+                <span className="font-mono text-slate-200">₹{Number(order.weightCharge).toFixed(2)}</span>
               </div>
               {Number(order.codSurcharge) > 0 && (
                 <div className="flex justify-between text-amber-400">
                   <span>COD Surcharge</span>
-                  <span className="font-mono">+${Number(order.codSurcharge).toFixed(2)}</span>
+                  <span className="font-mono">+₹{Number(order.codSurcharge).toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm font-bold text-slate-100 pt-2 border-t border-slate-800">
                 <span>Total Billed</span>
-                <span className="text-indigo-400 font-mono">${Number(order.totalCharge).toFixed(2)}</span>
+                <span className="text-indigo-400 font-mono">₹{Number(order.totalCharge).toFixed(2)}</span>
               </div>
             </div>
           </div>

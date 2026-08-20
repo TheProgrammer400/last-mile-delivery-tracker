@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { OrderService } from '../services/order.service';
 import { AssignmentService } from '../services/assignment.service';
+import { ZoneService } from '../services/zone.service';
 import {
   quoteOrderSchema,
   createOrderSchema,
@@ -12,6 +13,15 @@ import {
 import { OrderStatus } from '@prisma/client';
 
 export class OrdersController {
+  public static async getAreas(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    try {
+      const areas = await ZoneService.getAreas();
+      return res.status(200).json(areas);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   public static async quote(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {
       const validated = quoteOrderSchema.parse(req.body);

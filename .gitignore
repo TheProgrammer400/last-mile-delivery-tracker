@@ -7,3 +7,4 @@ pgdata/
 *.log
 coverage/
 .DS_Store
+notes.md

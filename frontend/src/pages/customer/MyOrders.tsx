@@ -143,7 +143,7 @@ export const MyOrders: React.FC = () => {
                 <div className="flex items-center justify-between md:justify-end gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800">
                   <div className="text-right">
                     <span className="text-xs text-slate-400 block">Total Charge</span>
-                    <span className="text-base font-bold text-indigo-400">${order.totalCharge}</span>
+                    <span className="text-base font-bold text-indigo-400">₹{order.totalCharge}</span>
                   </div>
 
                   <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />

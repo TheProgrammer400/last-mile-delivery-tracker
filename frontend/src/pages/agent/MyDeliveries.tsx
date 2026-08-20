@@ -163,7 +163,7 @@ export const MyDeliveries: React.FC = () => {
                   <div className="flex items-center gap-2">
                     <span className="font-mono font-bold text-slate-100">{order.orderNumber}</span>
                     <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
-                      {order.paymentType} (${order.totalCharge})
+                      {order.paymentType} (₹{order.totalCharge})
                     </span>
                   </div>
                   <StatusBadge status={order.currentStatus} size="sm" />

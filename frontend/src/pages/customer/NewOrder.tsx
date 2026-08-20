@@ -390,21 +390,21 @@ export const NewOrder: React.FC = () => {
           <div className="space-y-2 text-sm">
             <div className="flex justify-between py-1.5 border-b border-slate-800/60">
               <span className="text-slate-400">Base Handling Fee</span>
-              <span className="font-mono text-slate-200">${quote.baseFee.toFixed(2)}</span>
+              <span className="font-mono text-slate-200">₹{quote.baseFee.toFixed(2)}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-slate-800/60">
-              <span className="text-slate-400">Weight Charge ({quote.chargeableWeightKg} kg × ${quote.ratePerKg}/kg)</span>
-              <span className="font-mono text-slate-200">${quote.weightCharge.toFixed(2)}</span>
+              <span className="text-slate-400">Weight Charge ({quote.chargeableWeightKg} kg × ₹{quote.ratePerKg}/kg)</span>
+              <span className="font-mono text-slate-200">₹{quote.weightCharge.toFixed(2)}</span>
             </div>
             {paymentType === 'COD' && (
               <div className="flex justify-between py-1.5 border-b border-slate-800/60 text-amber-400">
                 <span>COD Surcharge ({orderType})</span>
-                <span className="font-mono">+${quote.codSurcharge.toFixed(2)}</span>
+                <span className="font-mono">+₹{quote.codSurcharge.toFixed(2)}</span>
               </div>
             )}
             <div className="flex justify-between py-3 text-base font-bold text-slate-100 border-t border-slate-700">
               <span>Total Charge</span>
-              <span className="text-xl font-bold text-indigo-400">${quote.totalCharge.toFixed(2)}</span>
+              <span className="text-xl font-bold text-indigo-400">₹{quote.totalCharge.toFixed(2)}</span>
             </div>
           </div>
 
@@ -452,7 +452,7 @@ export const NewOrder: React.FC = () => {
             </div>
             <div className="flex justify-between text-xs text-slate-400">
               <span>Total Paid/Due:</span>
-              <span className="font-bold text-slate-200">${createdOrder.totalCharge}</span>
+              <span className="font-bold text-slate-200">₹{createdOrder.totalCharge}</span>
             </div>
           </div>
 

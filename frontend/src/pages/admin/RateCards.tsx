@@ -136,8 +136,8 @@ export const RateCards: React.FC = () => {
                     <tr key={rc.id} className={rc.isActive ? 'bg-slate-900/30' : 'opacity-50'}>
                       <td className="p-3 font-semibold text-slate-200">{rc.orderType}</td>
                       <td className="p-3 font-mono">{rc.rateType}</td>
-                      <td className="p-3 font-mono">${Number(rc.baseFee).toFixed(2)}</td>
-                      <td className="p-3 font-mono">${Number(rc.ratePerKg).toFixed(2)}</td>
+                      <td className="p-3 font-mono">₹{Number(rc.baseFee).toFixed(2)}</td>
+                      <td className="p-3 font-mono">₹{Number(rc.ratePerKg).toFixed(2)}</td>
                       <td className="p-3">
                         {rc.isActive ? (
                           <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-medium">
@@ -168,7 +168,7 @@ export const RateCards: React.FC = () => {
                 <div key={cod.id} className="glass-card p-4 flex items-center justify-between">
                   <div>
                     <span className="font-bold text-slate-100 block">{cod.orderType} COD Surcharge</span>
-                    <span className="text-xs text-slate-400 font-mono">+${Number(cod.amount).toFixed(2)} flat per order</span>
+                    <span className="text-xs text-slate-400 font-mono">+₹{Number(cod.amount).toFixed(2)} flat per order</span>
                   </div>
                   <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-medium">
                     Active
@@ -203,11 +203,11 @@ export const RateCards: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Base Fee ($)</label>
+              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Base Fee (₹)</label>
               <input type="number" step="0.5" min="0" required value={baseFee} onChange={(e) => setBaseFee(Number(e.target.value))} className="w-full glass-input text-sm" />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Rate / Kg ($)</label>
+              <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Rate / Kg (₹)</label>
               <input type="number" step="0.5" min="0.1" required value={ratePerKg} onChange={(e) => setRatePerKg(Number(e.target.value))} className="w-full glass-input text-sm" />
             </div>
           </div>
@@ -232,7 +232,7 @@ export const RateCards: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Flat Surcharge Amount ($)</label>
+            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Flat Surcharge Amount (₹)</label>
             <input type="number" step="1" min="0" required value={codAmount} onChange={(e) => setCodAmount(Number(e.target.value))} className="w-full glass-input text-sm" />
           </div>
 

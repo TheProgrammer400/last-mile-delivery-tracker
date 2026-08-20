@@ -202,11 +202,7 @@ export const Navbar: React.FC = () => {
                 <LogOut className="w-5 h-5" />
               </button>
             </div>
-          ) : (
-            <Link to="/login" className="glass-button-primary text-sm py-2">
-              Sign In
-            </Link>
-          )}
+          ) : null}
         </div>
       </div>
     </header>

@@ -249,7 +249,7 @@ export const AllOrders: React.FC = () => {
                     </td>
 
                     <td className="p-4 font-mono font-bold text-slate-200">
-                      ${order.totalCharge}
+                      ₹{order.totalCharge}
                     </td>
 
                     <td className="p-4 text-right space-x-2">

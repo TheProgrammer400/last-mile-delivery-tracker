@@ -17,7 +17,7 @@ export async function createZoneApi(name: string): Promise<Zone> {
 }
 
 export async function getAreasApi(): Promise<Area[]> {
-  return apiFetch<Area[]>('/admin/areas');
+  return apiFetch<Area[]>('/orders/areas');
 }
 
 export async function createAreaApi(name: string, zoneId: string): Promise<Area> {

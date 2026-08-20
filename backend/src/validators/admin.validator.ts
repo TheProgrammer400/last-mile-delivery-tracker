@@ -17,8 +17,9 @@ export const updateAreaZoneSchema = z.object({
 export const createRateCardSchema = z.object({
   orderType: z.nativeEnum(OrderType, { errorMap: () => ({ message: 'orderType must be B2B or B2C' }) }),
   rateType: z.nativeEnum(RateType, { errorMap: () => ({ message: 'rateType must be INTRA_ZONE or INTER_ZONE' }) }),
+  chargePerKm: z.number().positive('chargePerKm must be greater than 0').optional().default(8.0),
   ratePerKg: z.number().positive('ratePerKg must be greater than 0'),
-  baseFee: z.number().nonnegative('baseFee must be non-negative'),
+  baseFee: z.number().nonnegative('baseFee must be non-negative').optional().default(0),
   effectiveFrom: z.string().datetime({ offset: true }).optional().or(z.date().optional()),
 });
 

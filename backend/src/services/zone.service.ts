@@ -67,8 +67,9 @@ export class ZoneService {
   public static async createRateCard(data: {
     orderType: OrderType;
     rateType: RateType;
+    chargePerKm?: number;
     ratePerKg: number;
-    baseFee: number;
+    baseFee?: number;
     effectiveFrom?: Date;
   }) {
     // Transaction to deactivate existing active card for (orderType, rateType) and create new one
@@ -86,8 +87,9 @@ export class ZoneService {
         data: {
           orderType: data.orderType,
           rateType: data.rateType,
+          chargePerKm: data.chargePerKm ?? 8.0,
           ratePerKg: data.ratePerKg,
-          baseFee: data.baseFee,
+          baseFee: data.baseFee ?? 0,
           effectiveFrom: data.effectiveFrom || new Date(),
           isActive: true,
         },

@@ -7,6 +7,7 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET || 'super-secret-jwt-key-last-mile-tracker-2026',
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || '',
   resendApiKey: process.env.RESEND_API_KEY || '',
   smtp: {
     host: process.env.SMTP_HOST || '',

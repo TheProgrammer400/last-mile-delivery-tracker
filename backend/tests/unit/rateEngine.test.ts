@@ -38,12 +38,13 @@ describe('RateEngineService Unit Tests', () => {
     areaNungambakkamId = a2.id;
     areaVelacheryId = a3.id;
 
-    // Rate Cards
+    // Rate Cards with chargePerKm
     await prisma.rateCard.create({
       data: {
         orderType: OrderType.B2C,
         rateType: 'INTRA_ZONE',
-        baseFee: 30,
+        chargePerKm: 8.0,
+        baseFee: 0,
         ratePerKg: 10,
         isActive: true,
       },
@@ -53,7 +54,8 @@ describe('RateEngineService Unit Tests', () => {
       data: {
         orderType: OrderType.B2C,
         rateType: 'INTER_ZONE',
-        baseFee: 60,
+        chargePerKm: 10.0,
+        baseFee: 0,
         ratePerKg: 18,
         isActive: true,
       },
@@ -73,10 +75,7 @@ describe('RateEngineService Unit Tests', () => {
     await prisma.$disconnect();
   });
 
-  it('should calculate INTRA_ZONE quote using higher of actual vs volumetric weight', async () => {
-    // Dimensions: 20x15x10 cm -> Volumetric = (20*15*10)/5000 = 0.6 kg.
-    // Actual weight: 2.0 kg -> Chargeable weight = 2.0 kg.
-    // Base fee: 30, Rate/kg: 10, Prepaid COD: 0 -> Total = 30 + (2.0 * 10) = 50.
+  it('should calculate distance-based Base Fee (Distance x Charge Per Km) for INTRA_ZONE route', async () => {
     const result = await RateEngineService.calculateQuote({
       pickupAreaId: areaTNagarId,
       dropAreaId: areaNungambakkamId,
@@ -91,17 +90,15 @@ describe('RateEngineService Unit Tests', () => {
     expect(result.rateType).toBe('INTRA_ZONE');
     expect(result.volumetricWeightKg).toBe(0.6);
     expect(result.chargeableWeightKg).toBe(2.0);
-    expect(result.baseFee).toBe(30);
+    expect(result.chargePerKm).toBe(8.0);
+    expect(result.distanceKm).toBeGreaterThan(0);
+    expect(result.baseFee).toBe(Math.round(result.distanceKm * 8.0 * 100) / 100);
     expect(result.weightCharge).toBe(20);
     expect(result.codSurcharge).toBe(0);
-    expect(result.totalCharge).toBe(50);
+    expect(result.totalCharge).toBe(Math.round((result.baseFee + 20 + 0) * 100) / 100);
   });
 
-  it('should calculate INTER_ZONE quote when pickup & drop are in different zones and apply COD surcharge', async () => {
-    // Dimensions: 50x40x30 cm -> Volumetric = (50*40*30)/5000 = 12.0 kg.
-    // Actual weight: 3.0 kg -> Chargeable weight = 12.0 kg (higher picked).
-    // Inter-zone B2C: Base 60, Rate/kg 18 -> Weight Charge = 12 * 18 = 216.
-    // COD Surcharge: 25 -> Total = 60 + 216 + 25 = 301.
+  it('should calculate distance-based Base Fee and apply COD surcharge for INTER_ZONE route', async () => {
     const result = await RateEngineService.calculateQuote({
       pickupAreaId: areaTNagarId,
       dropAreaId: areaVelacheryId,
@@ -116,10 +113,12 @@ describe('RateEngineService Unit Tests', () => {
     expect(result.rateType).toBe('INTER_ZONE');
     expect(result.volumetricWeightKg).toBe(12.0);
     expect(result.chargeableWeightKg).toBe(12.0);
-    expect(result.baseFee).toBe(60);
-    expect(result.weightCharge).toBe(216);
+    expect(result.chargePerKm).toBe(10.0);
+    expect(result.distanceKm).toBeGreaterThan(0);
+    expect(result.baseFee).toBe(Math.round(result.distanceKm * 10.0 * 100) / 100);
+    expect(result.weightCharge).toBe(216); // 12.0 kg * 18/kg = 216
     expect(result.codSurcharge).toBe(25);
-    expect(result.totalCharge).toBe(301);
+    expect(result.totalCharge).toBe(Math.round((result.baseFee + 216 + 25) * 100) / 100);
   });
 
   it('should throw BadRequestError for invalid dimensions or weight', async () => {

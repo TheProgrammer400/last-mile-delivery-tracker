@@ -132,7 +132,8 @@ async function main() {
     data: {
       orderType: OrderType.B2B,
       rateType: RateType.INTRA_ZONE,
-      baseFee: 50.0,
+      chargePerKm: 10.0,
+      baseFee: 0.0,
       ratePerKg: 15.0,
       isActive: true,
     },
@@ -142,7 +143,8 @@ async function main() {
     data: {
       orderType: OrderType.B2B,
       rateType: RateType.INTER_ZONE,
-      baseFee: 100.0,
+      chargePerKm: 12.0,
+      baseFee: 0.0,
       ratePerKg: 25.0,
       isActive: true,
     },
@@ -152,7 +154,8 @@ async function main() {
     data: {
       orderType: OrderType.B2C,
       rateType: RateType.INTRA_ZONE,
-      baseFee: 30.0,
+      chargePerKm: 8.0,
+      baseFee: 0.0,
       ratePerKg: 10.0,
       isActive: true,
     },
@@ -162,7 +165,8 @@ async function main() {
     data: {
       orderType: OrderType.B2C,
       rateType: RateType.INTER_ZONE,
-      baseFee: 60.0,
+      chargePerKm: 10.0,
+      baseFee: 0.0,
       ratePerKg: 18.0,
       isActive: true,
     },

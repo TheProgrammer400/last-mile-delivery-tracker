@@ -11,9 +11,9 @@
     "db:seed": "prisma db seed",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "test": "vitest run",
-    "test:unit": "vitest run tests/unit",
-    "test:integration": "vitest run tests/integration",
+    "test": "vitest run --no-file-parallelism",
+    "test:unit": "vitest run tests/unit --no-file-parallelism",
+    "test:integration": "vitest run tests/integration --no-file-parallelism",
     "typecheck": "tsc --noEmit"
   },
   "prisma": {

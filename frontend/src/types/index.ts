@@ -50,6 +50,7 @@ export interface RateCard {
   id: string;
   orderType: OrderType;
   rateType: RateType;
+  chargePerKm: number;
   ratePerKg: number;
   baseFee: number;
   effectiveFrom: string;
@@ -103,6 +104,8 @@ export interface Order {
   actualWeightKg: number;
   volumetricWeightKg: number;
   chargeableWeightKg: number;
+  distanceKm?: number;
+  chargePerKm?: number;
   orderType: OrderType;
   paymentType: PaymentType;
   rateCardIdUsed: string;
@@ -126,6 +129,8 @@ export interface QuoteResult {
   chargeableWeightKg: number;
   rateType: RateType;
   rateCardId: string;
+  distanceKm: number;
+  chargePerKm: number;
   baseFee: number;
   ratePerKg: number;
   weightCharge: number;

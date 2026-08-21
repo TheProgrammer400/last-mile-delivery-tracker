@@ -60,9 +60,9 @@ export const Login: React.FC = () => {
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto w-12 h-12 rounded bg-[#0F172A] flex items-center justify-center text-white font-mono font-bold mb-3 shadow-xs">
-            PL
+            LM
           </div>
-          <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Precision Logistics OS</h2>
+          <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Last Mile Delivery Service</h2>
           <p className="mt-1 text-xs text-[#475569]">Sign in to your account or select a quick demo role</p>
         </div>
 

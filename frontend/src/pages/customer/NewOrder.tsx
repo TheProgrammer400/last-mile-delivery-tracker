@@ -112,7 +112,7 @@ export const NewOrder: React.FC = () => {
       <div>
         <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-2.5">
           <Package className="w-6 h-6 text-[#0F172A]" />
-          New Order Wizard
+          New Order
         </h1>
         <p className="text-xs text-slate-500 mt-1 font-medium">
           Step {step} of 3: {step === 1 ? '1. Details' : step === 2 ? '2. Quote Review' : '3. Confirmation'}

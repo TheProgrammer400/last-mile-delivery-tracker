@@ -138,7 +138,7 @@ export const App: React.FC = () => {
             {/* Footer */}
             <footer className="border-t border-[#E2E8F0] bg-[#F7F9FB] py-6 text-center text-xs text-slate-500 font-medium">
               <div className="max-w-[1440px] mx-auto px-4">
-                Precision Logistics OS &copy; 2026. Built with Node.js, Express, PostgreSQL, Prisma & React.
+                Last Mile Delivery Service &copy; 2026.
               </div>
             </footer>
           </div>

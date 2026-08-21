@@ -57,11 +57,11 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded bg-[#0F172A] flex items-center justify-center text-white font-bold font-mono text-sm shadow-xs group-hover:bg-black transition-colors">
-              PL
+              LM
             </div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-base text-[#0F172A] tracking-tight leading-none">
-                Precision Logistics <span className="text-indigo-600 font-semibold">OS</span>
+                Last Mile Delivery <span className="text-indigo-600 font-semibold">Service</span>
               </span>
               {user?.role === 'ADMIN' && (
                 <span className="bg-[#BA1A1A] text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wider">
@@ -105,7 +105,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <PlusCircle className="w-4 h-4" />
-                  New Order Wizard
+                  New Order
                 </Link>
               </>
             )}
@@ -146,7 +146,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <Package className="w-4 h-4" />
-                  Master Orders
+                  Orders
                 </Link>
                 <Link
                   to="/admin/zones"
@@ -179,7 +179,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <Users className="w-4 h-4" />
-                  Fleet Agents
+                  Agents
                 </Link>
               </>
             )}
@@ -188,16 +188,15 @@ export const Navbar: React.FC = () => {
 
         {/* Global Search & User Actions */}
         <div className="flex items-center gap-3">
-          {/* Global Search Bar */}
           <div className="relative hidden lg:block w-60">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none z-10" />
+            {/* <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none z-10" />
             <input
               type="text"
               placeholder="Search OS..."
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               className="w-full bg-white border border-[#CBD5E1] rounded px-3 py-1.5 !pl-9 text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#0F172A] transition-all font-mono"
-            />
+            /> */}
           </div>
 
           {/* Agent Availability Switch */}

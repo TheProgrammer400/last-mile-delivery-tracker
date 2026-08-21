@@ -125,7 +125,7 @@ Manage B2B/B2C Intra/Inter rate cards.
 Manage COD surcharge configuration.
 
 ### `POST /admin/agents` & `GET /admin/agents`
-Manage delivery agent fleet.
+Manage delivery agent.
 
 ---
 

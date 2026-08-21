@@ -52,7 +52,7 @@ export const AdminDashboard: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Precision_Logistics_Report_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `Last_Mile_Delivery_Report_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -168,7 +168,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Live Shipment Stream</h3>
             <Link to="/admin/orders" className="text-xs font-bold text-[#0F172A] hover:underline flex items-center gap-1">
-              View All Master Orders ({totalOrdersCount})
+              View All Orders ({totalOrdersCount})
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -233,7 +233,7 @@ export const AdminDashboard: React.FC = () => {
                     <Package className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Master Order Dispatch</h4>
+                    <h4 className="font-bold text-sm text-[#0F172A]">Order Dispatch</h4>
                     <p className="text-xs text-slate-500">Filter, assign agents & override statuses</p>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export const AdminDashboard: React.FC = () => {
                     <Users className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Delivery Agent Fleet</h4>
+                    <h4 className="font-bold text-sm text-[#0F172A]">Delivery Agent</h4>
                     <p className="text-xs text-slate-500">Manage agent accounts & live availability</p>
                   </div>
                 </div>

@@ -41,7 +41,7 @@ export const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
+          <div className="min-h-screen flex flex-col bg-[#0B1120] text-[#F8FAFC] selection:bg-indigo-600 selection:text-white">
             <Navbar />
             <main className="flex-1 pb-12">
               <Routes>
@@ -136,9 +136,15 @@ export const App: React.FC = () => {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-slate-800/80 bg-slate-950 py-6 text-center text-xs text-slate-500">
-              <div className="max-w-7xl mx-auto px-4">
-                Last-Mile Delivery Management Platform &copy; 2026. Built with Node.js, Express, PostgreSQL, Prisma & React.
+            <footer className="border-t border-[#263449] bg-[#111827] py-6 text-center text-xs text-[#94A3B8] font-medium">
+              <div className="max-w-[1440px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div className="flex items-center gap-2 font-mono text-[11px] text-[#CBD5E1]">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Last Mile Delivery Tracker Platform • Operational Node v2.4</span>
+                </div>
+                <div>
+                  Last Mile Delivery Tracker &copy; 2026. Enterprise Logistics Operations.
+                </div>
               </div>
             </footer>
           </div>

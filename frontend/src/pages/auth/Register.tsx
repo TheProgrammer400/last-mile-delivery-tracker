@@ -32,26 +32,26 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 glass-panel p-8">
+    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#0B1120] text-[#F8FAFC]">
+      <div className="max-w-md w-full space-y-6 bg-[#111827] border border-[#263449] rounded-md p-8 shadow-xs font-mono">
         <div className="text-center">
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-indigo-600/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 shadow-lg shadow-indigo-500/10">
-            <User className="w-8 h-8" />
+          <div className="mx-auto w-12 h-12 rounded-md bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-lg mb-3 shadow-xs">
+            LM
           </div>
-          <h2 className="text-2xl font-bold text-slate-100 tracking-tight">Create Customer Account</h2>
-          <p className="mt-1 text-sm text-slate-400">Register to start placing delivery orders</p>
+          <h2 className="text-xl font-bold text-[#F8FAFC] tracking-tight">Create Customer Account</h2>
+          <p className="mt-1 text-xs text-[#94A3B8]">Register to place and track last-mile delivery shipments</p>
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-sm">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="flex items-center gap-2 p-3 bg-rose-500/10 border border-rose-500/30 rounded text-rose-400 text-xs font-medium">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
             <span>{error}</span>
           </div>
         )}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Full Name
             </label>
             <input
@@ -60,12 +60,12 @@ export const Register: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Jane Doe"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Email Address
             </label>
             <input
@@ -74,12 +74,12 @@ export const Register: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="jane@example.com"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Phone Number
             </label>
             <input
@@ -88,12 +88,12 @@ export const Register: React.FC = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+919876543210"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Password
             </label>
             <input
@@ -102,23 +102,23 @@ export const Register: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full glass-button-primary flex items-center justify-center gap-2 py-3 mt-6"
+            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5 mt-2 text-xs"
           >
             <span>{isSubmitting ? 'Creating account...' : 'Create Account'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+        <div className="text-center text-xs text-[#94A3B8] pt-3 border-t border-[#263449]">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium">
+          <Link to="/login" className="text-indigo-400 hover:underline font-bold">
             Sign In
           </Link>
         </div>
@@ -126,3 +126,4 @@ export const Register: React.FC = () => {
     </div>
   );
 };
+

@@ -107,62 +107,62 @@ export const NewOrder: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6 text-[#F8FAFC]">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-2.5">
-          <Package className="w-6 h-6 text-[#0F172A]" />
-          New Order
+      <div className="border-b border-[#263449] pb-4">
+        <h1 className="text-2xl font-bold text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+          <Package className="w-6 h-6 text-indigo-400" />
+          Dispatch Order Wizard
         </h1>
-        <p className="text-xs text-slate-500 mt-1 font-medium">
-          Step {step} of 3: {step === 1 ? '1. Details' : step === 2 ? '2. Quote Review' : '3. Confirmation'}
+        <p className="text-xs text-[#94A3B8] font-mono mt-0.5">
+          Step {step} of 3: {step === 1 ? '1. Package Details' : step === 2 ? '2. Quote Review' : '3. Confirmation'}
         </p>
       </div>
 
-      {/* 3-Step Wizard Progress Bar (Stitch Screen 3 Specification) */}
-      <div className="bg-white border border-[#E2E8F0] p-4 rounded shadow-sm">
-        <div className="flex items-center justify-between max-w-md mx-auto">
+      {/* 3-Step Wizard Progress Bar */}
+      <div className="bg-[#111827] border border-[#263449] p-4 rounded-md shadow-xs">
+        <div className="flex items-center justify-between max-w-md mx-auto font-mono">
           <div className="flex flex-col items-center gap-1">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-xs ${step >= 1 ? 'bg-[#0F172A] text-white' : 'bg-[#ECEEF0] text-slate-500'}`}>1</div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">Details</span>
+            <div className={`flex items-center justify-center w-8 h-8 rounded-md font-bold text-xs ${step >= 1 ? 'bg-indigo-600 text-white' : 'bg-[#172033] text-[#94A3B8] border border-[#263449]'}`}>1</div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#CBD5E1]">Details</span>
           </div>
 
-          <div className={`flex-1 h-0.5 mx-3 mb-4 ${step >= 2 ? 'bg-[#0F172A]' : 'bg-[#ECEEF0]'}`} />
+          <div className={`flex-1 h-0.5 mx-3 mb-4 ${step >= 2 ? 'bg-indigo-500' : 'bg-[#263449]'}`} />
 
           <div className="flex flex-col items-center gap-1">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-xs ${step >= 2 ? 'bg-[#0F172A] text-white' : 'bg-[#ECEEF0] text-slate-500'}`}>2</div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">Quote Review</span>
+            <div className={`flex items-center justify-center w-8 h-8 rounded-md font-bold text-xs ${step >= 2 ? 'bg-indigo-600 text-white' : 'bg-[#172033] text-[#94A3B8] border border-[#263449]'}`}>2</div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#CBD5E1]">Quote Review</span>
           </div>
 
-          <div className={`flex-1 h-0.5 mx-3 mb-4 ${step >= 3 ? 'bg-[#0F172A]' : 'bg-[#ECEEF0]'}`} />
+          <div className={`flex-1 h-0.5 mx-3 mb-4 ${step >= 3 ? 'bg-emerald-500' : 'bg-[#263449]'}`} />
 
           <div className="flex flex-col items-center gap-1">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-xs ${step === 3 ? 'bg-emerald-600 text-white' : 'bg-[#ECEEF0] text-slate-500'}`}>3</div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600">Confirmation</span>
+            <div className={`flex items-center justify-center w-8 h-8 rounded-md font-bold text-xs ${step === 3 ? 'bg-emerald-600 text-white' : 'bg-[#172033] text-[#94A3B8] border border-[#263449]'}`}>3</div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#CBD5E1]">Confirmation</span>
           </div>
         </div>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-200 rounded text-[#BA1A1A] text-xs font-medium">
-          <AlertCircle className="w-4 h-4 shrink-0 text-[#BA1A1A]" />
+        <div className="flex items-center gap-2 p-3 bg-rose-500/10 border border-rose-500/30 rounded text-rose-400 text-xs font-mono font-medium">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
           <span>{error}</span>
         </div>
       )}
 
       {/* STEP 1: Details Input Form */}
       {step === 1 && (
-        <form onSubmit={handleGetQuote} className="bg-white border border-[#E2E8F0] rounded p-6 space-y-6 shadow-sm">
+        <form onSubmit={handleGetQuote} className="bg-[#111827] border border-[#263449] rounded-md p-6 space-y-6 shadow-xs font-mono">
           {/* Pickup Details */}
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Pickup Details</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Pickup Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Pickup Area</label>
+                <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Pickup Locality Area</label>
                 <select
                   value={pickupAreaId}
                   onChange={(e) => setPickupAreaId(e.target.value)}
-                  className="w-full glass-input text-xs font-mono bg-white"
+                  className="w-full glass-input text-xs font-mono bg-[#172033]"
                   required
                 >
                   {areas.map((a) => (
@@ -174,7 +174,7 @@ export const NewOrder: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Pickup Address</label>
+                <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Full Pickup Address</label>
                 <input
                   type="text"
                   required
@@ -187,18 +187,18 @@ export const NewOrder: React.FC = () => {
             </div>
           </div>
 
-          <hr className="border-[#E2E8F0]" />
+          <hr className="border-[#263449]" />
 
           {/* Drop Details */}
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Drop-off Details</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Drop-off Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Drop Area</label>
+                <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Drop Locality Area</label>
                 <select
                   value={dropAreaId}
                   onChange={(e) => setDropAreaId(e.target.value)}
-                  className="w-full glass-input text-xs font-mono bg-white"
+                  className="w-full glass-input text-xs font-mono bg-[#172033]"
                   required
                 >
                   {areas.map((a) => (
@@ -210,7 +210,7 @@ export const NewOrder: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Drop Address</label>
+                <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Full Drop Address</label>
                 <input
                   type="text"
                   required
@@ -223,14 +223,14 @@ export const NewOrder: React.FC = () => {
             </div>
           </div>
 
-          <hr className="border-[#E2E8F0]" />
+          <hr className="border-[#263449]" />
 
           {/* Package Weight & Dimensions */}
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Package Dimensions & Weight</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Package Specs & Weight</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Length (cm)</label>
+                <label className="block text-xs font-medium text-[#94A3B8] mb-1">Length (cm)</label>
                 <input
                   type="number"
                   min="1"
@@ -242,7 +242,7 @@ export const NewOrder: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Breadth (cm)</label>
+                <label className="block text-xs font-medium text-[#94A3B8] mb-1">Breadth (cm)</label>
                 <input
                   type="number"
                   min="1"
@@ -254,7 +254,7 @@ export const NewOrder: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Height (cm)</label>
+                <label className="block text-xs font-medium text-[#94A3B8] mb-1">Height (cm)</label>
                 <input
                   type="number"
                   min="1"
@@ -266,7 +266,7 @@ export const NewOrder: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Actual Weight (kg)</label>
+                <label className="block text-xs font-medium text-[#94A3B8] mb-1">Actual Weight (kg)</label>
                 <input
                   type="number"
                   step="0.1"
@@ -280,20 +280,20 @@ export const NewOrder: React.FC = () => {
             </div>
           </div>
 
-          <hr className="border-[#E2E8F0]" />
+          <hr className="border-[#263449]" />
 
           {/* Type & Payment Toggles */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Order Type</label>
+              <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Order Tier</label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setOrderType('B2C')}
-                  className={`py-2 rounded text-xs font-bold transition-all border ${
+                  className={`py-2 rounded text-xs font-mono font-bold transition-all border ${
                     orderType === 'B2C'
-                      ? 'bg-[#0F172A] text-white border-[#0F172A]'
-                      : 'bg-white text-slate-700 border-[#CBD5E1] hover:bg-slate-50'
+                      ? 'bg-indigo-600 text-white border-indigo-500'
+                      : 'bg-[#172033] text-[#CBD5E1] border-[#263449] hover:border-indigo-500/50'
                   }`}
                 >
                   B2C (Retail)
@@ -301,10 +301,10 @@ export const NewOrder: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setOrderType('B2B')}
-                  className={`py-2 rounded text-xs font-bold transition-all border ${
+                  className={`py-2 rounded text-xs font-mono font-bold transition-all border ${
                     orderType === 'B2B'
-                      ? 'bg-[#0F172A] text-white border-[#0F172A]'
-                      : 'bg-white text-slate-700 border-[#CBD5E1] hover:bg-slate-50'
+                      ? 'bg-indigo-600 text-white border-indigo-500'
+                      : 'bg-[#172033] text-[#CBD5E1] border-[#263449] hover:border-indigo-500/50'
                   }`}
                 >
                   B2B (Business)
@@ -313,15 +313,15 @@ export const NewOrder: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Payment Method</label>
+              <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">Payment Method</label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setPaymentType('PREPAID')}
-                  className={`py-2 rounded text-xs font-bold transition-all border ${
+                  className={`py-2 rounded text-xs font-mono font-bold transition-all border ${
                     paymentType === 'PREPAID'
-                      ? 'bg-emerald-700 text-white border-emerald-700'
-                      : 'bg-white text-slate-700 border-[#CBD5E1] hover:bg-slate-50'
+                      ? 'bg-emerald-600 text-white border-emerald-500'
+                      : 'bg-[#172033] text-[#CBD5E1] border-[#263449] hover:border-emerald-500/50'
                   }`}
                 >
                   Prepaid
@@ -329,10 +329,10 @@ export const NewOrder: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setPaymentType('COD')}
-                  className={`py-2 rounded text-xs font-bold transition-all border ${
+                  className={`py-2 rounded text-xs font-mono font-bold transition-all border ${
                     paymentType === 'COD'
-                      ? 'bg-amber-600 text-white border-amber-600'
-                      : 'bg-white text-slate-700 border-[#CBD5E1] hover:bg-slate-50'
+                      ? 'bg-amber-600 text-white border-amber-500'
+                      : 'bg-[#172033] text-[#CBD5E1] border-[#263449] hover:border-amber-500/50'
                   }`}
                 >
                   COD
@@ -344,84 +344,84 @@ export const NewOrder: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5"
+            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5 font-mono"
           >
             <Calculator className="w-4 h-4" />
-            <span>{isSubmitting ? 'Calculating Quote...' : 'Calculate Delivery Charge'}</span>
+            <span>{isSubmitting ? 'Computing Rates...' : 'Calculate Delivery Charge'}</span>
           </button>
         </form>
       )}
 
       {/* STEP 2: Quote Review Screen */}
       {step === 2 && quote && (
-        <div className="bg-white border border-[#E2E8F0] rounded p-6 space-y-6 shadow-sm">
-          <div className="border-b border-[#E2E8F0] pb-4">
-            <h2 className="text-xl font-bold text-[#0F172A] mb-1">Calculated Charge Breakdown</h2>
-            <p className="text-xs text-slate-500 font-medium">
-              Review full route rates and weight calculations before confirming order placement
+        <div className="bg-[#111827] border border-[#263449] rounded-md p-6 space-y-6 shadow-xs font-mono">
+          <div className="border-b border-[#263449] pb-4">
+            <h2 className="text-xl font-bold text-[#F8FAFC] mb-1">Calculated Charge Matrix Breakdown</h2>
+            <p className="text-xs text-[#94A3B8] font-mono">
+              Review route rate card, actual vs volumetric weight comparison, and fees before confirming order placement
             </p>
           </div>
 
           {/* Route Info Card */}
-          <div className="grid grid-cols-2 gap-4 bg-[#F8FAFC] p-4 rounded border border-[#E2E8F0] text-xs">
+          <div className="grid grid-cols-2 gap-4 bg-[#172033] p-4 rounded-md border border-[#263449] text-xs font-mono">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase font-bold block">Pickup Zone</span>
-              <span className="font-bold text-[#0F172A] text-sm">{quote.pickupZoneName}</span>
+              <span className="text-[10px] text-[#94A3B8] uppercase font-bold block">Pickup Zone Hub</span>
+              <span className="font-bold text-[#F8FAFC] text-sm">{quote.pickupZoneName}</span>
             </div>
             <div>
-              <span className="text-[10px] text-slate-500 uppercase font-bold block">Drop Zone</span>
-              <span className="font-bold text-[#0F172A] text-sm">{quote.dropZoneName}</span>
+              <span className="text-[10px] text-[#94A3B8] uppercase font-bold block">Drop Zone Hub</span>
+              <span className="font-bold text-[#F8FAFC] text-sm">{quote.dropZoneName}</span>
             </div>
-            <div className="col-span-2 pt-2 border-t border-[#E2E8F0] flex items-center justify-between">
-              <span className="text-slate-500">Route Rate Type:</span>
-              <span className="font-bold text-[#0F172A] bg-slate-200 px-2 py-0.5 rounded font-mono">
+            <div className="col-span-2 pt-2 border-t border-[#263449] flex items-center justify-between">
+              <span className="text-[#94A3B8]">Route Rate Scope:</span>
+              <span className="font-bold text-indigo-400 bg-[#111827] px-2 py-0.5 rounded border border-[#263449]">
                 {quote.rateType}
               </span>
             </div>
           </div>
 
           {/* Volumetric vs Actual Weight Comparison Card */}
-          <div className="bg-white border border-[#E2E8F0] rounded p-4 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700">Weight Comparison & Selection</h4>
+          <div className="bg-[#172033] border border-[#263449] rounded-md p-4 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Actual vs Volumetric Weight Matrix</h4>
             <div className="grid grid-cols-3 gap-3 text-center text-xs">
-              <div className="bg-[#F8FAFC] p-3 rounded border border-[#E2E8F0]">
-                <span className="text-slate-500 block text-[10px]">Actual Weight</span>
-                <span className="font-mono font-bold text-[#0F172A] text-sm">{actualWeightKg} kg</span>
+              <div className="bg-[#111827] p-3 rounded border border-[#263449]">
+                <span className="text-[#94A3B8] block text-[10px]">Actual Weight</span>
+                <span className="font-mono font-bold text-[#F8FAFC] text-sm">{actualWeightKg} kg</span>
               </div>
-              <div className="bg-[#F8FAFC] p-3 rounded border border-[#E2E8F0]">
-                <span className="text-slate-500 block text-[10px]">Volumetric Weight</span>
-                <span className="font-mono font-bold text-[#0F172A] text-sm">{quote.volumetricWeightKg} kg</span>
-                <span className="text-[10px] text-slate-400 block font-mono">({lengthCm}×{breadthCm}×{heightCm} ÷ 5000)</span>
+              <div className="bg-[#111827] p-3 rounded border border-[#263449]">
+                <span className="text-[#94A3B8] block text-[10px]">Volumetric Weight</span>
+                <span className="font-mono font-bold text-[#F8FAFC] text-sm">{quote.volumetricWeightKg} kg</span>
+                <span className="text-[10px] text-[#94A3B8] block font-mono">({lengthCm}×{breadthCm}×{heightCm} ÷ 5000)</span>
               </div>
-              <div className="bg-blue-50 p-3 rounded border border-blue-200">
-                <span className="text-blue-700 block font-bold text-[10px] uppercase">Billable Weight</span>
-                <span className="font-mono font-bold text-blue-900 text-sm">{quote.chargeableWeightKg} kg</span>
-                <span className="text-[10px] text-blue-700 block font-semibold">(Higher Picked)</span>
+              <div className="bg-indigo-500/10 p-3 rounded border border-indigo-500/30">
+                <span className="text-indigo-400 block font-bold text-[10px] uppercase">Billable Weight</span>
+                <span className="font-mono font-bold text-indigo-300 text-sm">{quote.chargeableWeightKg} kg</span>
+                <span className="text-[10px] text-indigo-400 block font-semibold">(Higher Picked)</span>
               </div>
             </div>
           </div>
 
           {/* Fee Table */}
-          <div className="space-y-2.5 text-xs">
-            <div className="flex justify-between py-1.5 border-b border-[#E2E8F0]">
-              <span className="text-slate-600">
-                Base Distance Fee (<strong className="text-[#0F172A] font-mono">{quote.distanceKm} km</strong> × ₹{quote.chargePerKm}/km)
+          <div className="space-y-2.5 text-xs font-mono">
+            <div className="flex justify-between py-1.5 border-b border-[#263449]">
+              <span className="text-[#CBD5E1]">
+                Base Distance Fee (<strong className="text-[#F8FAFC]">{quote.distanceKm} km</strong> × ₹{quote.chargePerKm}/km)
               </span>
-              <span className="font-mono font-bold text-[#0F172A]">₹{quote.baseFee.toFixed(2)}</span>
+              <span className="font-bold text-[#F8FAFC]">₹{quote.baseFee.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-[#E2E8F0]">
-              <span className="text-slate-600">Weight Charge ({quote.chargeableWeightKg} kg × ₹{quote.ratePerKg}/kg)</span>
-              <span className="font-mono font-bold text-[#0F172A]">₹{quote.weightCharge.toFixed(2)}</span>
+            <div className="flex justify-between py-1.5 border-b border-[#263449]">
+              <span className="text-[#CBD5E1]">Weight Charge ({quote.chargeableWeightKg} kg × ₹{quote.ratePerKg}/kg)</span>
+              <span className="font-bold text-[#F8FAFC]">₹{quote.weightCharge.toFixed(2)}</span>
             </div>
             {paymentType === 'COD' && (
-              <div className="flex justify-between py-1.5 border-b border-[#E2E8F0] text-amber-700 font-semibold">
-                <span>COD Surcharge ({orderType})</span>
-                <span className="font-mono font-bold">+₹{quote.codSurcharge.toFixed(2)}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#263449] text-amber-400 font-semibold">
+                <span>COD Flat Surcharge ({orderType})</span>
+                <span className="font-bold">+₹{quote.codSurcharge.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between py-3 text-sm font-bold text-[#0F172A] border-t border-[#0F172A]">
+            <div className="flex justify-between py-3 text-sm font-bold text-[#F8FAFC] border-t border-[#263449]">
               <span>Total Payable Charge</span>
-              <span className="text-xl font-mono font-bold text-[#0F172A]">₹{quote.totalCharge.toFixed(2)}</span>
+              <span className="text-xl font-bold text-indigo-400">₹{quote.totalCharge.toFixed(2)}</span>
             </div>
           </div>
 
@@ -450,26 +450,26 @@ export const NewOrder: React.FC = () => {
 
       {/* STEP 3: Order Confirmation Screen */}
       {step === 3 && createdOrder && (
-        <div className="bg-white border border-[#E2E8F0] rounded p-8 text-center space-y-6 shadow-2xs">
-          <div className="mx-auto w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-700 flex items-center justify-center">
+        <div className="bg-[#111827] border border-[#263449] rounded-md p-8 text-center space-y-6 shadow-xs font-mono">
+          <div className="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
             <CheckCircle2 className="w-10 h-10" />
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-[#0F172A]">Order Successfully Placed!</h2>
-            <p className="text-slate-600 text-xs mt-1">
-              Your tracking number is <strong className="text-[#0F172A] font-mono text-base">#{createdOrder.orderNumber}</strong>
+            <h2 className="text-2xl font-bold text-[#F8FAFC]">Shipment Order Placed Successfully!</h2>
+            <p className="text-[#94A3B8] text-xs mt-1">
+              Tracking number generated: <strong className="text-indigo-400 text-base">#{createdOrder.orderNumber}</strong>
             </p>
           </div>
 
-          <div className="bg-[#F8FAFC] p-4 rounded border border-[#E2E8F0] text-xs text-left max-w-md mx-auto space-y-2">
-            <div className="flex justify-between text-slate-600">
-              <span>Current Status:</span>
-              <span className="font-bold text-[#0F172A] uppercase font-mono">{createdOrder.currentStatus}</span>
+          <div className="bg-[#172033] p-4 rounded-md border border-[#263449] text-xs text-left max-w-md mx-auto space-y-2">
+            <div className="flex justify-between text-[#94A3B8]">
+              <span>Initial Status:</span>
+              <span className="font-bold text-emerald-400 uppercase">{createdOrder.currentStatus}</span>
             </div>
-            <div className="flex justify-between text-slate-600">
+            <div className="flex justify-between text-[#94A3B8]">
               <span>Total Charge Billed:</span>
-              <span className="font-mono font-bold text-[#0F172A]">₹{createdOrder.totalCharge}</span>
+              <span className="font-bold text-[#F8FAFC]">₹{Number(createdOrder.totalCharge).toFixed(2)}</span>
             </div>
           </div>
 
@@ -478,7 +478,7 @@ export const NewOrder: React.FC = () => {
               onClick={() => navigate(`/orders/${createdOrder.id}`)}
               className="glass-button-primary px-6 py-2.5 text-xs"
             >
-              View Order Detail & Live Timeline
+              View Order Detail & Live Ledger Timeline
             </button>
           </div>
         </div>
@@ -486,3 +486,4 @@ export const NewOrder: React.FC = () => {
     </div>
   );
 };
+

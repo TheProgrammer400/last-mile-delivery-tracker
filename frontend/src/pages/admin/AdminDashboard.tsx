@@ -9,17 +9,16 @@ import {
   Package,
   Truck,
   CheckCircle2,
-  XCircle,
   Users,
   Layers,
   CreditCard,
-  BarChart3,
   ArrowRight,
   Download,
   ArrowUpRight,
-  ArrowDownRight,
-  Search,
-  Zap,
+  ShieldCheck,
+  Activity,
+  ChevronRight,
+  Compass,
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -52,7 +51,7 @@ export const AdminDashboard: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Last_Mile_Delivery_Report_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `Last_Mile_Delivery_Tracker_Report_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -65,120 +64,156 @@ export const AdminDashboard: React.FC = () => {
     : '94.2';
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Header & Export CTA */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E2E8F0] pb-6">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 text-[#F8FAFC]">
+      {/* Header & Operations Status Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#263449] pb-6">
         <div>
-          <h1 className="text-3xl font-bold text-[#0F172A] tracking-tight">Executive Dashboard</h1>
-          <p className="text-xs text-[#515F74] mt-1 font-medium">
-            Real-time logistics network overview, operational analytics, and active dispatch management.
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-[#F8FAFC] tracking-tight">Executive Dashboard</h1>
+            <span className="bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Live Operations Mode
+            </span>
+          </div>
+          <p className="text-xs text-[#94A3B8] mt-1 font-mono">
+            Real-time delivery network tracking, SLA performance monitoring, and master agent dispatch control.
           </p>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-3">
           <button
             onClick={handleExportReport}
-            className="bg-white border border-[#C6C6CD] hover:bg-slate-50 text-[#0F172A] px-4 py-2 rounded text-xs font-bold uppercase tracking-wider shadow-sm flex items-center gap-2 transition-all active:scale-95"
+            className="bg-[#1E293B] border border-[#263449] hover:bg-[#263449] hover:border-[#374151] text-[#F8FAFC] px-4 py-2 rounded text-xs font-mono font-bold tracking-wide shadow-xs flex items-center gap-2 transition-all active:scale-95"
           >
-            <Download className="w-4 h-4 text-slate-700" />
-            Export Report
+            <Download className="w-3.5 h-3.5 text-indigo-400" />
+            Export System Log
           </button>
         </div>
       </div>
 
-      {/* KPI Section */}
+      {/* Differentiated KPI Cards */}
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Skeleton count={4} className="h-32" />
+          <Skeleton count={4} className="h-36" />
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1 — Total Orders */}
-          <div className="bg-white border border-[#E2E8F0] rounded p-6 flex flex-col justify-between space-y-3 shadow-sm">
+          <div className="bg-[#111827] border border-[#263449] rounded-md p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-[#374151] transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Total Orders</span>
-              <Package className="w-5 h-5 text-[#515F74]" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Total Orders</span>
+              <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-indigo-400">
+                <Package className="w-4 h-4" />
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold font-mono text-[#0F172A] leading-tight">
+              <div className="text-3xl font-bold font-mono text-[#F8FAFC] tracking-tight">
                 {totalOrdersCount > 0 ? totalOrdersCount.toLocaleString() : '1,284'}
               </div>
-              <div className="text-xs text-emerald-600 font-semibold flex items-center gap-1 mt-1">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-                <span>+12% from yesterday</span>
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#263449]">
+                <span className="text-[11px] text-emerald-400 font-mono font-semibold flex items-center gap-1">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  +12% from yesterday
+                </span>
+                {/* Mini Trend sparkline representation */}
+                <div className="flex items-end gap-0.5 h-4">
+                  <span className="w-1 bg-emerald-500/40 h-1.5 rounded-t-xs" />
+                  <span className="w-1 bg-emerald-500/60 h-2.5 rounded-t-xs" />
+                  <span className="w-1 bg-emerald-500/80 h-2 rounded-t-xs" />
+                  <span className="w-1 bg-emerald-400 h-4 rounded-t-xs animate-pulse" />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Card 2 — Active Shipments (with 65% Indigo Progress Bar) */}
-          <div className="bg-white border border-[#E2E8F0] rounded p-6 flex flex-col justify-between space-y-3 shadow-sm">
+          {/* Card 2 — Active Shipments */}
+          <div className="bg-[#111827] border border-[#263449] rounded-md p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-[#374151] transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Active Shipments</span>
-              <Truck className="w-5 h-5 text-[#6366F1]" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Active Shipments</span>
+              <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-indigo-400">
+                <Truck className="w-4 h-4" />
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold font-mono text-[#0F172A] leading-tight">
+              <div className="text-3xl font-bold font-mono text-[#F8FAFC] tracking-tight">
                 {activeOrdersCount > 0 ? activeOrdersCount : '412'}
               </div>
-              <div className="w-full bg-[#ECEEF0] h-1.5 rounded-full mt-3 overflow-hidden">
-                <div className="bg-[#6366F1] h-full rounded-full transition-all duration-500" style={{ width: '65%' }} />
+              <div className="space-y-1.5 mt-2 pt-2 border-t border-[#263449]">
+                <div className="flex justify-between text-[10px] font-mono text-[#CBD5E1]">
+                  <span>Daily Capacity</span>
+                  <span className="font-bold text-indigo-400">65% Active</span>
+                </div>
+                <div className="w-full bg-[#1E293B] h-1.5 rounded-full overflow-hidden border border-[#263449]">
+                  <div className="bg-indigo-500 h-full rounded-full transition-all duration-500 shadow-xs" style={{ width: '65%' }} />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Card 3 — Delivered Ratio (with SLA breach warning) */}
-          <div className="bg-white border border-[#E2E8F0] rounded p-6 flex flex-col justify-between space-y-3 shadow-sm">
+          {/* Card 3 — Delivered SLA Ratio */}
+          <div className="bg-[#111827] border border-[#263449] rounded-md p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-[#374151] transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Delivered Ratio</span>
-              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Delivered Ratio</span>
+              <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-emerald-400">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold font-mono text-[#0F172A] leading-tight">
+              <div className="text-3xl font-bold font-mono text-[#F8FAFC] tracking-tight">
                 {deliveredPercentage}%
               </div>
-              <div className="text-xs text-[#BA1A1A] font-semibold flex items-center gap-1 mt-1">
-                <ArrowDownRight className="w-3.5 h-3.5" />
-                <span>-0.5% SLA breach indicator</span>
+              <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#263449]">
+                <span className="text-[11px] text-emerald-400 font-mono font-semibold flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Within SLA (90% target)
+                </span>
+                <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/20">Optimal</span>
               </div>
             </div>
           </div>
 
           {/* Card 4 — Available Fleet */}
-          <div className="bg-white border border-[#E2E8F0] rounded p-6 flex flex-col justify-between space-y-3 shadow-sm">
+          <div className="bg-[#111827] border border-[#263449] rounded-md p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-[#374151] transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Available Fleet</span>
-              <Users className="w-5 h-5 text-emerald-600" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Available Fleet</span>
+              <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-emerald-400">
+                <Users className="w-4 h-4" />
+              </div>
             </div>
             <div>
-              <div className="text-3xl font-bold font-mono text-[#0F172A] leading-tight">
+              <div className="text-3xl font-bold font-mono text-[#F8FAFC] tracking-tight">
                 {stats?.availableAgents || 48}
               </div>
-              <div className="text-xs text-[#515F74] font-medium mt-1">
-                Across 3 regional hubs ({stats?.totalAgents || 52} registered)
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#94A3B8] mt-2 pt-2 border-t border-[#263449]">
+                <span>3 Regional Hubs</span>
+                <span className="text-[#CBD5E1] font-semibold">{stats?.totalAgents || 52} Registered</span>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Main Grid: Orders Table & Quick Management */}
+      {/* Main Operational Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Master Recent Orders Table */}
+        {/* Live Shipment Stream Table (2 Cols) */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Live Shipment Stream</h3>
-            <Link to="/admin/orders" className="text-xs font-bold text-[#0F172A] hover:underline flex items-center gap-1">
-              View All Orders ({totalOrdersCount})
+            <div className="flex items-center gap-2">
+              <Activity className="w-4 h-4 text-indigo-400" />
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1] font-mono">Live Shipment Stream</h3>
+            </div>
+            <Link to="/admin/orders" className="text-xs font-mono font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition-colors">
+              <span>View Master Orders ({totalOrdersCount})</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="bg-white border border-[#E2E8F0] rounded overflow-hidden shadow-sm">
+          <div className="bg-[#111827] border border-[#263449] rounded-md overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-[#191C1E]">
-                <thead className="bg-[#ECEEF0] text-[#515F74] uppercase tracking-wider font-bold border-b border-[#E2E8F0]">
+              <table className="w-full text-left text-xs text-[#CBD5E1]">
+                <thead className="bg-[#172033] text-[#94A3B8] uppercase tracking-wider font-mono font-semibold border-b border-[#263449]">
                   <tr>
-                    <th className="p-3.5">Order #</th>
+                    <th className="p-3.5">Order ID</th>
                     <th className="p-3.5">Customer</th>
                     <th className="p-3.5">Route</th>
                     <th className="p-3.5">Status</th>
@@ -186,33 +221,35 @@ export const AdminDashboard: React.FC = () => {
                     <th className="p-3.5 text-right">Amount</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E2E8F0]">
+                <tbody className="divide-y divide-[#263449]">
                   {recentOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-[#F8FAFC] transition-colors">
-                      <td className="p-3.5 font-mono font-bold text-[#0F172A]">
-                        <Link to={`/orders/${order.id}`} className="hover:underline text-indigo-600">
-                          {order.orderNumber}
+                    <tr key={order.id} className="hover:bg-[#172033]/60 transition-colors">
+                      <td className="p-3.5 font-mono font-bold text-indigo-400">
+                        <Link to={`/orders/${order.id}`} className="hover:underline">
+                          #{order.orderNumber}
                         </Link>
                       </td>
                       <td className="p-3.5">
-                        <span className="font-semibold block">{order.customer.name}</span>
-                        <span className="text-[10px] text-slate-500 font-mono">{order.customer.phone}</span>
+                        <span className="font-semibold text-[#F8FAFC] block">{order.customer.name}</span>
+                        <span className="text-[10px] text-[#94A3B8] font-mono">{order.customer.phone}</span>
                       </td>
-                      <td className="p-3.5 font-medium text-slate-700">
-                        {order.pickupArea?.name} → {order.dropArea?.name}
+                      <td className="p-3.5 font-mono text-xs text-[#CBD5E1]">
+                        <span className="text-[#F8FAFC] font-semibold">{order.pickupArea?.name}</span>
+                        <span className="text-indigo-400 mx-1.5">→</span>
+                        <span className="text-[#F8FAFC] font-semibold">{order.dropArea?.name}</span>
                       </td>
                       <td className="p-3.5">
                         <StatusBadge status={order.currentStatus} size="sm" />
                       </td>
                       <td className="p-3.5">
                         {order.assignedAgent ? (
-                          <span className="font-semibold text-slate-900">{order.assignedAgent.user.name}</span>
+                          <span className="font-semibold text-[#F8FAFC] font-mono text-xs">{order.assignedAgent.user.name}</span>
                         ) : (
-                          <span className="text-slate-400 italic">Unassigned</span>
+                          <span className="text-[#94A3B8] italic font-mono text-[11px]">Unassigned</span>
                         )}
                       </td>
-                      <td className="p-3.5 text-right font-mono font-bold text-[#0F172A]">
-                        ₹{order.totalCharge}
+                      <td className="p-3.5 text-right font-mono font-bold text-[#F8FAFC]">
+                        ₹{Number(order.totalCharge).toFixed(2)}
                       </td>
                     </tr>
                   ))}
@@ -222,67 +259,75 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Col: System Navigation Cards */}
+        {/* Compact Operational Modules (1 Col) */}
         <div className="space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-[#515F74]">Operational Controls</h3>
+          <div className="flex items-center gap-2">
+            <Compass className="w-4 h-4 text-indigo-400" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#CBD5E1] font-mono">Operational Controls</h3>
+          </div>
+
           <div className="space-y-3">
-            <Link to="/admin/orders" className="bg-white border border-[#E2E8F0] p-4 rounded block hover:border-[#CBD5E1] transition-all shadow-sm group">
+            {/* Module 1: Order Dispatch */}
+            <Link to="/admin/orders" className="bg-[#111827] border border-[#263449] p-4 rounded-md block hover:border-indigo-500/50 hover:bg-[#172033] transition-all shadow-xs group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded bg-[#F1F5F9] text-[#0F172A] flex items-center justify-center font-bold">
-                    <Package className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded bg-[#172033] border border-[#263449] text-indigo-400 flex items-center justify-center font-bold">
+                    <Package className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Order Dispatch</h4>
-                    <p className="text-xs text-slate-500">Filter, assign agents & override statuses</p>
+                    <h4 className="font-bold text-sm text-[#F8FAFC]">Master Order Dispatch</h4>
+                    <p className="text-xs text-[#94A3B8] font-mono">Filter shipments, assign agents & override statuses</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0F172A] group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
 
-            <Link to="/admin/zones" className="bg-white border border-[#E2E8F0] p-4 rounded block hover:border-[#CBD5E1] transition-all shadow-sm group">
+            {/* Module 2: Zones & Areas */}
+            <Link to="/admin/zones" className="bg-[#111827] border border-[#263449] p-4 rounded-md block hover:border-indigo-500/50 hover:bg-[#172033] transition-all shadow-xs group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded bg-[#F1F5F9] text-[#0F172A] flex items-center justify-center font-bold">
-                    <Layers className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded bg-[#172033] border border-[#263449] text-indigo-400 flex items-center justify-center font-bold">
+                    <Layers className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Zones & Areas</h4>
-                    <p className="text-xs text-slate-500">Configure delivery hubs & locality mapping</p>
+                    <h4 className="font-bold text-sm text-[#F8FAFC]">Zones & Areas</h4>
+                    <p className="text-xs text-[#94A3B8] font-mono">3 Zones • Locality & hub mapping active</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0F172A] group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
 
-            <Link to="/admin/rate-cards" className="bg-white border border-[#E2E8F0] p-4 rounded block hover:border-[#CBD5E1] transition-all shadow-2xs group">
+            {/* Module 3: Rate Cards & COD */}
+            <Link to="/admin/rate-cards" className="bg-[#111827] border border-[#263449] p-4 rounded-md block hover:border-indigo-500/50 hover:bg-[#172033] transition-all shadow-xs group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded bg-[#F1F5F9] text-[#0F172A] flex items-center justify-center font-bold">
-                    <CreditCard className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded bg-[#172033] border border-[#263449] text-indigo-400 flex items-center justify-center font-bold">
+                    <CreditCard className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Rate Cards & COD</h4>
-                    <p className="text-xs text-slate-500">Configure per-km rates & COD surcharges</p>
+                    <h4 className="font-bold text-sm text-[#F8FAFC]">Rate Cards & COD</h4>
+                    <p className="text-xs text-[#94A3B8] font-mono">B2B/B2C rate matrices & flat COD fees</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0F172A] group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
 
-            <Link to="/admin/agents" className="bg-white border border-[#E2E8F0] p-4 rounded block hover:border-[#CBD5E1] transition-all shadow-2xs group">
+            {/* Module 4: Delivery Agent Fleet */}
+            <Link to="/admin/agents" className="bg-[#111827] border border-[#263449] p-4 rounded-md block hover:border-indigo-500/50 hover:bg-[#172033] transition-all shadow-xs group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded bg-[#F1F5F9] text-[#0F172A] flex items-center justify-center font-bold">
-                    <Users className="w-4 h-4" />
+                  <div className="w-10 h-10 rounded bg-[#172033] border border-[#263449] text-indigo-400 flex items-center justify-center font-bold">
+                    <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#0F172A]">Delivery Agent</h4>
-                    <p className="text-xs text-slate-500">Manage agent accounts & live availability</p>
+                    <h4 className="font-bold text-sm text-[#F8FAFC]">Delivery Agent Fleet</h4>
+                    <p className="text-xs text-[#94A3B8] font-mono">{stats?.availableAgents || 48} active agents available online</p>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#0F172A] group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-4 h-4 text-[#94A3B8] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
               </div>
             </Link>
           </div>
@@ -291,3 +336,4 @@ export const AdminDashboard: React.FC = () => {
     </div>
   );
 };
+

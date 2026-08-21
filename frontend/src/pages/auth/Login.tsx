@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Truck, Shield, User, AlertCircle, ArrowRight } from 'lucide-react';
+import { Truck, Shield, User, AlertCircle, ArrowRight, Zap } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -55,62 +55,63 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F9FB]">
-      <div className="max-w-md w-full space-y-6 bg-white border border-[#E2E8F0] rounded-md p-8 shadow-sm">
+    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#0B1120] text-[#F8FAFC]">
+      <div className="max-w-md w-full space-y-6 bg-[#111827] border border-[#263449] rounded-md p-8 shadow-xs">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto w-12 h-12 rounded bg-[#0F172A] flex items-center justify-center text-white font-mono font-bold mb-3 shadow-xs">
-            LM
+          <div className="mx-auto w-12 h-12 rounded-md bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono font-bold text-lg mb-3 shadow-xs">
+            PL
           </div>
-          <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Last Mile Delivery Service</h2>
-          <p className="mt-1 text-xs text-[#475569]">Sign in to your account or select a quick demo role</p>
+          <h2 className="text-xl font-bold text-[#F8FAFC] tracking-tight">Last Mile Delivery Tracker</h2>
+          <p className="mt-1 text-xs text-[#94A3B8] font-mono">Sign in to your portal or select a quick demo role</p>
         </div>
 
         {/* Demo Quick Logins */}
-        <div className="bg-[#F1F5F9] p-3.5 rounded border border-[#E2E8F0] space-y-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#475569] block">
-            ⚡ Quick Demo Accounts
+        <div className="bg-[#172033] p-4 rounded-md border border-[#263449] space-y-2.5 font-mono">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+            <Zap className="w-3.5 h-3.5 text-amber-400" />
+            Quick Demo Role Logins
           </span>
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
               onClick={() => handleDemoLogin('admin@delivery.com', 'admin123')}
-              className="flex flex-col items-center justify-center p-2 rounded bg-white border border-[#CBD5E1] hover:border-[#0F172A] text-xs font-bold text-[#0F172A] transition-all shadow-xs"
+              className="flex flex-col items-center justify-center p-2 rounded bg-[#111827] border border-[#263449] hover:border-rose-500/50 text-xs font-bold text-[#F8FAFC] transition-all shadow-xs group"
             >
-              <Shield className="w-4 h-4 text-[#BA1A1A] mb-1" />
+              <Shield className="w-4 h-4 text-rose-400 mb-1 group-hover:scale-110 transition-transform" />
               Admin
             </button>
             <button
               type="button"
               onClick={() => handleDemoLogin('customer@example.com', 'customer123')}
-              className="flex flex-col items-center justify-center p-2 rounded bg-white border border-[#CBD5E1] hover:border-[#0F172A] text-xs font-bold text-[#0F172A] transition-all shadow-xs"
+              className="flex flex-col items-center justify-center p-2 rounded bg-[#111827] border border-[#263449] hover:border-sky-500/50 text-xs font-bold text-[#F8FAFC] transition-all shadow-xs group"
             >
-              <User className="w-4 h-4 text-indigo-600 mb-1" />
+              <User className="w-4 h-4 text-sky-400 mb-1 group-hover:scale-110 transition-transform" />
               Customer
             </button>
             <button
               type="button"
               onClick={() => handleDemoLogin('agent1@delivery.com', 'agent123')}
-              className="flex flex-col items-center justify-center p-2 rounded bg-white border border-[#CBD5E1] hover:border-[#0F172A] text-xs font-bold text-[#0F172A] transition-all shadow-xs"
+              className="flex flex-col items-center justify-center p-2 rounded bg-[#111827] border border-[#263449] hover:border-emerald-500/50 text-xs font-bold text-[#F8FAFC] transition-all shadow-xs group"
             >
-              <Truck className="w-4 h-4 text-emerald-600 mb-1" />
-              Agent
+              <Truck className="w-4 h-4 text-emerald-400 mb-1 group-hover:scale-110 transition-transform" />
+              Agent Fleet
             </button>
           </div>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-200 rounded text-[#BA1A1A] text-xs font-medium">
-            <AlertCircle className="w-4 h-4 shrink-0 text-[#BA1A1A]" />
+          <div className="flex items-center gap-2 p-3 bg-rose-500/10 border border-rose-500/30 rounded text-rose-400 text-xs font-mono font-medium">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Form */}
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4 font-mono" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Email Address
             </label>
             <input
@@ -119,12 +120,12 @@ export const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-1">
               Password
             </label>
             <input
@@ -133,23 +134,23 @@ export const Login: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full glass-input"
+              className="w-full glass-input text-xs"
             />
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5"
+            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5 font-mono text-xs"
           >
             <span>{isSubmitting ? 'Signing in...' : 'Sign In'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500 pt-3 border-t border-[#E2E8F0]">
+        <div className="text-center text-xs text-[#94A3B8] pt-3 border-t border-[#263449] font-mono">
           Don't have an account?{' '}
-          <Link to="/register" className="text-[#0F172A] hover:underline font-bold">
+          <Link to="/register" className="text-indigo-400 hover:underline font-bold">
             Register as Customer
           </Link>
         </div>
@@ -157,3 +158,4 @@ export const Login: React.FC = () => {
     </div>
   );
 };
+

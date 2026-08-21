@@ -12,6 +12,9 @@ import {
   Search,
   Zap,
   ShieldAlert,
+  RotateCcw,
+  UserCheck,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 export const AllOrders: React.FC = () => {
@@ -106,6 +109,13 @@ export const AllOrders: React.FC = () => {
     }
   };
 
+  const resetFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('');
+    setZoneFilter('');
+    setAgentFilter('');
+  };
+
   const filteredOrders = orders.filter(
     (o) =>
       o.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -114,138 +124,163 @@ export const AllOrders: React.FC = () => {
   );
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 text-[#F8FAFC]">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight flex items-center gap-2.5">
-          <Package className="w-6 h-6 text-[#0F172A]" />
-          All Orders Management
-        </h1>
-        <p className="text-xs text-[#475569] mt-0.5">View, filter, assign agents, and override statuses</p>
-      </div>
-
-      {/* Filters Bar */}
-      <div className="bg-white border border-[#E2E8F0] rounded p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 shadow-xs">
-        <div className="relative flex items-center">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none z-10" />
-          <input
-            type="text"
-            placeholder="Search order # or customer..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full glass-input !pl-10 text-xs font-mono"
-          />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#263449] pb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
+            <Package className="w-6 h-6 text-indigo-400" />
+            Master Orders Workspace
+          </h1>
+          <p className="text-xs text-[#94A3B8] font-mono mt-0.5">Filter, inspect routes, assign delivery agents, and trigger status overrides</p>
         </div>
 
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="glass-input text-xs bg-white font-mono"
-        >
-          <option value="">All Statuses</option>
-          <option value="CREATED">Created</option>
-          <option value="ASSIGNED">Assigned</option>
-          <option value="PICKED_UP">Picked Up</option>
-          <option value="IN_TRANSIT">In Transit</option>
-          <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
-          <option value="DELIVERED">Delivered</option>
-          <option value="FAILED">Failed</option>
-          <option value="RESCHEDULED">Rescheduled</option>
-        </select>
-
-        <select
-          value={zoneFilter}
-          onChange={(e) => setZoneFilter(e.target.value)}
-          className="glass-input text-xs bg-white font-mono"
-        >
-          <option value="">All Zones</option>
-          {zones.map((z) => (
-            <option key={z.id} value={z.id}>
-              {z.name}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={agentFilter}
-          onChange={(e) => setAgentFilter(e.target.value)}
-          className="glass-input text-xs bg-white font-mono"
-        >
-          <option value="">All Agents</option>
-          {agents.map((ag) => (
-            <option key={ag.id} value={ag.id}>
-              {ag.user.name} ({ag.zone?.name})
-            </option>
-          ))}
-        </select>
+        <div className="text-xs font-mono text-[#CBD5E1] bg-[#172033] border border-[#263449] px-3 py-1.5 rounded flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <span>Showing {filteredOrders.length} of {orders.length} total shipments</span>
+        </div>
       </div>
 
-      {/* Orders Table */}
+      {/* Control Bar */}
+      <div className="bg-[#111827] border border-[#263449] rounded-md p-4 space-y-3 shadow-xs">
+        <div className="flex items-center gap-2 text-xs font-mono text-[#94A3B8] uppercase font-semibold">
+          <SlidersHorizontal className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Operational Control Bar</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="relative flex items-center">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8] pointer-events-none z-10" />
+            <input
+              type="text"
+              placeholder="Search order # or customer..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full glass-input !pl-10 text-xs font-mono"
+            />
+          </div>
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="glass-input text-xs font-mono bg-[#172033]"
+          >
+            <option value="">Status: All States</option>
+            <option value="CREATED">CREATED</option>
+            <option value="ASSIGNED">ASSIGNED</option>
+            <option value="PICKED_UP">PICKED_UP</option>
+            <option value="IN_TRANSIT">IN_TRANSIT</option>
+            <option value="OUT_FOR_DELIVERY">OUT_FOR_DELIVERY</option>
+            <option value="DELIVERED">DELIVERED</option>
+            <option value="FAILED">FAILED</option>
+            <option value="RESCHEDULED">RESCHEDULED</option>
+          </select>
+
+          <select
+            value={zoneFilter}
+            onChange={(e) => setZoneFilter(e.target.value)}
+            className="glass-input text-xs font-mono bg-[#172033]"
+          >
+            <option value="">Zone: All Hubs</option>
+            {zones.map((z) => (
+              <option key={z.id} value={z.id}>
+                {z.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={agentFilter}
+            onChange={(e) => setAgentFilter(e.target.value)}
+            className="glass-input text-xs font-mono bg-[#172033]"
+          >
+            <option value="">Agent: All Fleet</option>
+            {agents.map((ag) => (
+              <option key={ag.id} value={ag.id}>
+                {ag.user.name} ({ag.zone?.name})
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={resetFilters}
+            className="bg-[#1E293B] hover:bg-[#263449] text-[#F8FAFC] border border-[#263449] px-3 py-2 rounded text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-[#94A3B8]" />
+            Reset Controls
+          </button>
+        </div>
+      </div>
+
+      {/* Master Orders Table */}
       {isLoading ? (
-        <Skeleton count={5} className="h-16" />
+        <Skeleton count={6} className="h-16" />
       ) : filteredOrders.length === 0 ? (
         <EmptyState
-          title="No Matching Orders"
-          description="No orders match the selected filters or search parameters."
+          title="No Matching Operational Shipments"
+          description="All active filters returned 0 shipments. Adjust search parameters or reset controls."
         />
       ) : (
-        <div className="bg-white border border-[#E2E8F0] rounded overflow-hidden shadow-xs">
+        <div className="bg-[#111827] border border-[#263449] rounded-md overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-[#191C1E]">
-              <thead className="bg-[#ECEEF0] text-[#515F74] uppercase tracking-wider font-bold border-b border-[#E2E8F0]">
+            <table className="w-full text-left text-xs text-[#CBD5E1]">
+              <thead className="bg-[#172033] text-[#94A3B8] uppercase tracking-wider font-mono font-semibold border-b border-[#263449]">
                 <tr>
-                  <th className="p-3.5">Order #</th>
-                  <th className="p-3.5">Customer</th>
-                  <th className="p-3.5">Route</th>
+                  <th className="p-3.5">Order ID</th>
+                  <th className="p-3.5">Customer Details</th>
+                  <th className="p-3.5">Route Directional</th>
                   <th className="p-3.5">Status</th>
                   <th className="p-3.5">Assigned Agent</th>
                   <th className="p-3.5">Charge</th>
-                  <th className="p-3.5 text-right">Actions</th>
+                  <th className="p-3.5 text-right">Operational Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E2E8F0]">
+              <tbody className="divide-y divide-[#263449]">
                 {filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-[#F8FAFC] transition-colors">
-                    <td className="p-3.5 font-mono font-bold text-[#0F172A]">
-                      <Link to={`/orders/${order.id}`} className="hover:underline text-indigo-600">
-                        {order.orderNumber}
+                  <tr key={order.id} className="hover:bg-[#172033]/60 transition-colors">
+                    <td className="p-3.5 font-mono font-bold text-indigo-400">
+                      <Link to={`/orders/${order.id}`} className="hover:underline">
+                        #{order.orderNumber}
                       </Link>
                     </td>
 
                     <td className="p-3.5">
-                      <span className="font-semibold text-[#0F172A] block">{order.customer.name}</span>
-                      <span className="text-[10px] text-[#475569] font-mono">{order.customer.email}</span>
+                      <span className="font-semibold text-[#F8FAFC] block">{order.customer.name}</span>
+                      <span className="text-[10px] text-[#94A3B8] font-mono">{order.customer.email}</span>
                     </td>
 
-                    <td className="p-3.5">
-                      <span className="block font-medium text-slate-700">{order.pickupArea?.name} → {order.dropArea?.name}</span>
-                      <span className="text-[10px] text-slate-500 font-mono">{order.orderType} • {order.paymentType}</span>
+                    <td className="p-3.5 font-mono text-xs text-[#CBD5E1]">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[#F8FAFC] font-semibold">{order.pickupArea?.name}</span>
+                        <span className="text-indigo-400">→</span>
+                        <span className="text-[#F8FAFC] font-semibold">{order.dropArea?.name}</span>
+                      </div>
+                      <span className="text-[10px] text-[#94A3B8]">{order.orderType} • {order.paymentType}</span>
                     </td>
 
                     <td className="p-3.5">
                       <StatusBadge status={order.currentStatus} size="sm" />
                     </td>
 
-                    <td className="p-3.5">
+                    <td className="p-3.5 font-mono text-xs">
                       {order.assignedAgent ? (
-                        <span className="text-[#0F172A] font-semibold block">{order.assignedAgent.user.name}</span>
+                        <span className="text-[#F8FAFC] font-semibold block">{order.assignedAgent.user.name}</span>
                       ) : (
                         <div className="flex items-center gap-1.5">
-                          <span className="text-slate-400 italic">Unassigned</span>
+                          <span className="text-[#94A3B8] italic text-[11px]">Unassigned</span>
                           <button
                             onClick={() => handleAutoAssign(order.id)}
-                            className="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 font-semibold text-[10px] flex items-center gap-1"
-                            title="Auto Assign Nearest Agent"
+                            className="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-500/20 font-semibold text-[10px] flex items-center gap-1 transition-all"
+                            title="Trigger Nearest Agent Auto-Assignment"
                           >
-                            <Zap className="w-3 h-3 text-amber-500" />
+                            <Zap className="w-3 h-3 text-amber-400" />
                             Auto
                           </button>
                         </div>
                       )}
                     </td>
 
-                    <td className="p-3.5 font-mono font-bold text-[#0F172A]">
-                      ₹{order.totalCharge}
+                    <td className="p-3.5 font-mono font-bold text-[#F8FAFC]">
+                      ₹{Number(order.totalCharge).toFixed(2)}
                     </td>
 
                     <td className="p-3.5 text-right space-x-2">
@@ -254,7 +289,7 @@ export const AllOrders: React.FC = () => {
                           setAssigningOrder(order);
                           setSelectedAgentId(order.assignedAgentId || '');
                         }}
-                        className="px-2.5 py-1 rounded bg-[#0F172A] hover:bg-slate-800 text-white text-[11px] font-bold shadow-xs"
+                        className="px-2.5 py-1 rounded bg-[#172033] hover:bg-[#1E293B] text-indigo-400 border border-[#263449] hover:border-indigo-500/50 text-[11px] font-mono font-bold transition-all shadow-xs"
                       >
                         Assign Agent
                       </button>
@@ -264,9 +299,9 @@ export const AllOrders: React.FC = () => {
                           setOverrideOrder(order);
                           setOverrideStatus(order.currentStatus);
                         }}
-                        className="px-2.5 py-1 rounded bg-rose-50 hover:bg-rose-100 text-[#BA1A1A] text-[11px] font-bold border border-rose-200 shadow-xs"
+                        className="px-2.5 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] font-mono font-bold transition-all shadow-xs"
                       >
-                        Override Status
+                        Override State
                       </button>
                     </td>
                   </tr>
@@ -282,42 +317,42 @@ export const AllOrders: React.FC = () => {
         <Modal
           isOpen={!!assigningOrder}
           onClose={() => setAssigningOrder(null)}
-          title={`Assign Agent: ${assigningOrder.orderNumber}`}
+          title={`Dispatch Agent: #${assigningOrder.orderNumber}`}
         >
-          <div className="space-y-4">
+          <div className="space-y-4 font-mono">
             {assignError && (
-              <div className="p-3 rounded bg-rose-50 border border-rose-200 text-[#BA1A1A] text-xs font-medium">
+              <div className="p-3 rounded bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium">
                 {assignError}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-                Select Agent
+              <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">
+                Select Fleet Delivery Agent
               </label>
               <select
                 value={selectedAgentId}
                 onChange={(e) => setSelectedAgentId(e.target.value)}
-                className="w-full glass-input text-xs bg-white font-mono"
+                className="w-full glass-input text-xs bg-[#172033] font-mono"
               >
                 <option value="">-- Select Available Agent --</option>
                 {agents.map((ag) => (
                   <option key={ag.id} value={ag.id}>
-                    {ag.user.name} ({ag.zone?.name}) - {ag.isAvailable ? 'Available' : 'Busy'}
+                    {ag.user.name} ({ag.zone?.name}) - {ag.isAvailable ? 'AVAILABLE' : 'BUSY'}
                   </option>
                 ))}
               </select>
             </div>
 
-            <div className="flex justify-between items-center pt-3 border-t border-[#E2E8F0]">
+            <div className="flex justify-between items-center pt-3 border-t border-[#263449]">
               <button
                 onClick={() => {
                   handleAutoAssign(assigningOrder.id);
                   setAssigningOrder(null);
                 }}
-                className="px-3 py-1.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-bold flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 text-xs font-bold flex items-center gap-1.5 hover:bg-indigo-500/20 transition-all"
               >
-                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                <Zap className="w-3.5 h-3.5 text-amber-400" />
                 Trigger Auto-Assign
               </button>
 
@@ -333,7 +368,7 @@ export const AllOrders: React.FC = () => {
                   disabled={isAssigning || !selectedAgentId}
                   className="glass-button-primary text-xs py-1.5 px-4"
                 >
-                  {isAssigning ? 'Assigning...' : 'Assign Manual'}
+                  {isAssigning ? 'Assigning...' : 'Assign Agent'}
                 </button>
               </div>
             </div>
@@ -346,30 +381,30 @@ export const AllOrders: React.FC = () => {
         <Modal
           isOpen={!!overrideOrder}
           onClose={() => setOverrideOrder(null)}
-          title={`Admin Status Override: ${overrideOrder.orderNumber}`}
+          title={`Admin Status Override: #${overrideOrder.orderNumber}`}
         >
-          <form onSubmit={handleStatusOverrideSubmit} className="space-y-4">
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded text-amber-800 text-xs flex items-start gap-2">
-              <ShieldAlert className="w-4 h-4 shrink-0 text-amber-700 mt-0.5" />
+          <form onSubmit={handleStatusOverrideSubmit} className="space-y-4 font-mono">
+            <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded text-amber-400 text-xs flex items-start gap-2">
+              <ShieldAlert className="w-4 h-4 shrink-0 text-amber-400 mt-0.5" />
               <span>
-                <strong>Warning:</strong> Admin status override bypasses normal actor-based state machine rules. This action will be logged in the immutable timeline.
+                <strong>Warning:</strong> Admin status override bypasses state machine safeguards. Action is recorded in the immutable tracking ledger.
               </span>
             </div>
 
             {overrideError && (
-              <div className="p-3 rounded bg-rose-50 border border-rose-200 text-[#BA1A1A] text-xs font-medium">
+              <div className="p-3 rounded bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-medium">
                 {overrideError}
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-                New Target Status
+              <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">
+                New Target Operational State
               </label>
               <select
                 value={overrideStatus}
                 onChange={(e) => setOverrideStatus(e.target.value as OrderStatus)}
-                className="w-full glass-input text-xs bg-white font-mono"
+                className="w-full glass-input text-xs bg-[#172033] font-mono"
               >
                 <option value="CREATED">CREATED</option>
                 <option value="ASSIGNED">ASSIGNED</option>
@@ -383,7 +418,7 @@ export const AllOrders: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">
                 Reason for Override
               </label>
               <textarea
@@ -395,7 +430,7 @@ export const AllOrders: React.FC = () => {
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-3 border-t border-[#E2E8F0]">
+            <div className="flex justify-end gap-2 pt-3 border-t border-[#263449]">
               <button
                 type="button"
                 onClick={() => setOverrideOrder(null)}
@@ -406,7 +441,7 @@ export const AllOrders: React.FC = () => {
               <button
                 type="submit"
                 disabled={isOverriding}
-                className="bg-[#BA1A1A] hover:bg-rose-700 text-white font-bold px-4 py-1.5 rounded text-xs transition-all shadow-xs"
+                className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-1.5 rounded text-xs transition-all shadow-xs"
               >
                 {isOverriding ? 'Saving...' : 'Confirm Override'}
               </button>
@@ -417,3 +452,4 @@ export const AllOrders: React.FC = () => {
     </div>
   );
 };
+

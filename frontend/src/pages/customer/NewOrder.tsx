@@ -112,14 +112,14 @@ export const NewOrder: React.FC = () => {
       <div className="border-b border-[#263449] pb-4">
         <h1 className="text-2xl font-bold text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
           <Package className="w-6 h-6 text-indigo-400" />
-          Dispatch Order Wizard
+          Dispatch Order
         </h1>
         <p className="text-xs text-[#94A3B8] font-mono mt-0.5">
           Step {step} of 3: {step === 1 ? '1. Package Details' : step === 2 ? '2. Quote Review' : '3. Confirmation'}
         </p>
       </div>
 
-      {/* 3-Step Wizard Progress Bar */}
+      {/* 3-Step Progress Bar */}
       <div className="bg-[#111827] border border-[#263449] p-4 rounded-md shadow-xs">
         <div className="flex items-center justify-between max-w-md mx-auto font-mono">
           <div className="flex flex-col items-center gap-1">

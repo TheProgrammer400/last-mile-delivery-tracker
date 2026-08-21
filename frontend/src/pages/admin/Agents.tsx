@@ -65,7 +65,7 @@ export const Agents: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-[#F8FAFC] tracking-tight flex items-center gap-2.5">
             <Users className="w-6 h-6 text-indigo-400" />
-            Delivery Agent Fleet Management
+            Delivery Agent Management
           </h1>
           <p className="text-xs text-[#94A3B8] font-mono mt-0.5">Manage agent field profiles, home hub assignments, and live operational availability</p>
         </div>

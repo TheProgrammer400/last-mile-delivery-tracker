@@ -172,10 +172,10 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 4 — Available Fleet */}
+          {/* Card 4 — Available*/}
           <div className="bg-[#111827] border border-[#263449] rounded-md p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-[#374151] transition-all">
             <div className="flex justify-between items-start">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Available Fleet</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8] font-mono">Available Agents</span>
               <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-emerald-400">
                 <Users className="w-4 h-4" />
               </div>
@@ -315,7 +315,7 @@ export const AdminDashboard: React.FC = () => {
               </div>
             </Link>
 
-            {/* Module 4: Delivery Agent Fleet */}
+            {/* Module 4: Delivery Agent*/}
             <Link to="/admin/agents" className="bg-[#111827] border border-[#263449] p-4 rounded-md block hover:border-indigo-500/50 hover:bg-[#172033] transition-all shadow-xs group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -323,7 +323,7 @@ export const AdminDashboard: React.FC = () => {
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-[#F8FAFC]">Delivery Agent Fleet</h4>
+                    <h4 className="font-bold text-sm text-[#F8FAFC]">Delivery Agent</h4>
                     <p className="text-xs text-[#94A3B8] font-mono">{stats?.availableAgents || 48} active agents available online</p>
                   </div>
                 </div>

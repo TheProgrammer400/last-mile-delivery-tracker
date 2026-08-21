@@ -193,7 +193,7 @@ export const AllOrders: React.FC = () => {
             onChange={(e) => setAgentFilter(e.target.value)}
             className="glass-input text-xs font-mono bg-[#172033]"
           >
-            <option value="">Agent: All Fleet</option>
+            <option value="">Agent: All</option>
             {agents.map((ag) => (
               <option key={ag.id} value={ag.id}>
                 {ag.user.name} ({ag.zone?.name})
@@ -328,7 +328,7 @@ export const AllOrders: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-[#94A3B8] uppercase tracking-wider mb-1">
-                Select Fleet Delivery Agent
+                Select Delivery Agent
               </label>
               <select
                 value={selectedAgentId}

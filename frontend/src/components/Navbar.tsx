@@ -54,11 +54,11 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#111827] border-b border-[#263449] text-[#F8FAFC] shadow-sm">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand & PL Mark */}
+        {/* Brand & LM Mark */}
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded bg-[#172033] border border-[#263449] flex items-center justify-center text-indigo-400 font-bold font-mono text-xs shadow-xs group-hover:border-indigo-500/50 group-hover:bg-[#1E293B] transition-all">
-              PL
+              LM
             </div>
             <div className="flex items-center gap-2.5">
               <span className="font-bold text-base text-[#F8FAFC] tracking-tight leading-none">
@@ -76,7 +76,7 @@ export const Navbar: React.FC = () => {
               )}
               {user?.role === 'AGENT' && (
                 <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wider">
-                  Agent Fleet
+                  Agent
                 </span>
               )}
             </div>
@@ -190,14 +190,14 @@ export const Navbar: React.FC = () => {
         {/* Search & Actions */}
         <div className="flex items-center gap-3">
           <div className="relative hidden lg:block w-64">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8] pointer-events-none z-10" />
+            {/* <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8] pointer-events-none z-10" />
             <input
               type="text"
-              placeholder="Search orders, fleet, tracking IDs..."
+              placeholder="Search orders, tracking IDs..."
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
               className="w-full bg-[#172033] border border-[#263449] rounded px-3 py-1.5 !pl-9 text-xs text-[#F8FAFC] placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all font-mono"
-            />
+            /> */}
           </div>
 
           {/* Agent Availability Switch */}

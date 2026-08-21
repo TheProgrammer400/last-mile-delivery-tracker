@@ -150,7 +150,7 @@ export const ZonesAreas: React.FC = () => {
                   <div>
                     <h4 className="font-bold text-[#F8FAFC] text-sm">{zone.name}</h4>
                     <span className="text-xs text-[#94A3B8] font-mono">
-                      {zone._count?.areas || 0} Locality Areas • {zone._count?.agents || 0} Assigned Fleet Agents
+                      {zone._count?.areas || 0} Locality Areas • {zone._count?.agents || 0} Assigned Agents
                     </span>
                   </div>
                   <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 uppercase tracking-wider flex items-center gap-1.5">

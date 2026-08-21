@@ -36,7 +36,7 @@ export const Register: React.FC = () => {
       <div className="max-w-md w-full space-y-6 bg-[#111827] border border-[#263449] rounded-md p-8 shadow-xs font-mono">
         <div className="text-center">
           <div className="mx-auto w-12 h-12 rounded-md bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold text-lg mb-3 shadow-xs">
-            PL
+            LM
           </div>
           <h2 className="text-xl font-bold text-[#F8FAFC] tracking-tight">Create Customer Account</h2>
           <p className="mt-1 text-xs text-[#94A3B8]">Register to place and track last-mile delivery shipments</p>

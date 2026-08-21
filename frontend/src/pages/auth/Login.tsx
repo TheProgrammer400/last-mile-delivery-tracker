@@ -60,7 +60,7 @@ export const Login: React.FC = () => {
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto w-12 h-12 rounded-md bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-mono font-bold text-lg mb-3 shadow-xs">
-            PL
+            LM
           </div>
           <h2 className="text-xl font-bold text-[#F8FAFC] tracking-tight">Last Mile Delivery Tracker</h2>
           <p className="mt-1 text-xs text-[#94A3B8] font-mono">Sign in to your portal or select a quick demo role</p>
@@ -95,7 +95,7 @@ export const Login: React.FC = () => {
               className="flex flex-col items-center justify-center p-2 rounded bg-[#111827] border border-[#263449] hover:border-emerald-500/50 text-xs font-bold text-[#F8FAFC] transition-all shadow-xs group"
             >
               <Truck className="w-4 h-4 text-emerald-400 mb-1 group-hover:scale-110 transition-transform" />
-              Agent Fleet
+              Agent
             </button>
           </div>
         </div>

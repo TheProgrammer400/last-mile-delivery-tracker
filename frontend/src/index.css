@@ -5,26 +5,45 @@
 @layer base {
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    @apply bg-slate-950 text-slate-100 antialiased selection:bg-indigo-500 selection:text-white;
+    @apply bg-[#F7F9FB] text-[#191C1E] antialiased selection:bg-[#0F172A] selection:text-white;
   }
 }
 
+/* Operational Monospace Data Typography */
+.font-mono-data {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.01em;
+}
+
+/* Stitch Surface Layering */
+.stitch-canvas {
+  @apply bg-[#F7F9FB] text-[#191C1E];
+}
+
+.stitch-card {
+  @apply bg-white border border-[#E2E8F0] rounded-md shadow-sm transition-all duration-150 hover:border-[#CBD5E1];
+}
+
+.stitch-header-surface {
+  @apply bg-[#F1F5F9] border-b border-[#E2E8F0] text-[#475569] uppercase tracking-wider font-semibold text-xs;
+}
+
 .glass-panel {
-  @apply bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 shadow-xl rounded-2xl;
+  @apply bg-white border border-[#E2E8F0] rounded-md shadow-sm;
 }
 
 .glass-card {
-  @apply bg-slate-900/40 backdrop-blur-md border border-slate-800/60 shadow-lg rounded-xl transition-all duration-200 hover:border-slate-700/80;
+  @apply bg-white border border-[#E2E8F0] rounded-md shadow-sm transition-all duration-150 hover:border-[#CBD5E1];
 }
 
 .glass-input {
-  @apply bg-slate-950/70 border border-slate-800 rounded-lg px-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all;
+  @apply bg-white border border-[#CBD5E1] rounded-md px-3.5 py-2 text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0F172A]/10 focus:border-[#0F172A] transition-all;
 }
 
 .glass-button-primary {
-  @apply bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-medium px-5 py-2.5 rounded-lg shadow-lg shadow-indigo-500/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none;
+  @apply bg-[#0F172A] hover:bg-slate-800 text-white font-semibold text-xs px-4 py-2 rounded-md shadow-sm active:scale-[0.99] transition-all disabled:opacity-50 disabled:pointer-events-none;
 }
 
 .glass-button-secondary {
-  @apply bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 font-medium px-5 py-2.5 rounded-lg border border-slate-700/60 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none;
+  @apply bg-white hover:bg-slate-50 text-[#0F172A] font-semibold text-xs px-4 py-2 rounded-md border border-[#CBD5E1] shadow-sm active:scale-[0.99] transition-all disabled:opacity-50 disabled:pointer-events-none;
 }

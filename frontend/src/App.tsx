@@ -41,7 +41,7 @@ export const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
+          <div className="min-h-screen flex flex-col bg-[#F7F9FB] text-[#191C1E] selection:bg-[#0F172A] selection:text-white">
             <Navbar />
             <main className="flex-1 pb-12">
               <Routes>
@@ -136,9 +136,9 @@ export const App: React.FC = () => {
             </main>
 
             {/* Footer */}
-            <footer className="border-t border-slate-800/80 bg-slate-950 py-6 text-center text-xs text-slate-500">
-              <div className="max-w-7xl mx-auto px-4">
-                Last-Mile Delivery Management Platform &copy; 2026. Built with Node.js, Express, PostgreSQL, Prisma & React.
+            <footer className="border-t border-[#E2E8F0] bg-[#F7F9FB] py-6 text-center text-xs text-slate-500 font-medium">
+              <div className="max-w-[1440px] mx-auto px-4">
+                Precision Logistics OS &copy; 2026. Built with Node.js, Express, PostgreSQL, Prisma & React.
               </div>
             </footer>
           </div>

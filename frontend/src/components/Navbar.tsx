@@ -51,17 +51,17 @@ export const Navbar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0F172A] border-b border-slate-800 text-white shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-[#F7F9FB] border-b border-[#E2E8F0] text-[#0F172A] shadow-xs">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand & PL Logo Box */}
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded bg-black flex items-center justify-center text-white font-bold font-mono text-sm border border-slate-700 shadow-xs group-hover:bg-indigo-600 transition-colors">
+            <div className="w-8 h-8 rounded bg-[#0F172A] flex items-center justify-center text-white font-bold font-mono text-sm shadow-xs group-hover:bg-black transition-colors">
               PL
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-base text-white tracking-tight leading-none">
-                Precision Logistics <span className="text-indigo-400 font-medium">OS</span>
+              <span className="font-bold text-base text-[#0F172A] tracking-tight leading-none">
+                Precision Logistics <span className="text-indigo-600 font-semibold">OS</span>
               </span>
               {user?.role === 'ADMIN' && (
                 <span className="bg-[#BA1A1A] text-white font-bold text-[10px] uppercase px-2 py-0.5 rounded tracking-wider">
@@ -89,8 +89,8 @@ export const Navbar: React.FC = () => {
                   to="/orders"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/orders')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <Package className="w-4 h-4" />
@@ -100,8 +100,8 @@ export const Navbar: React.FC = () => {
                   to="/orders/new"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/orders/new')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <PlusCircle className="w-4 h-4" />
@@ -115,8 +115,8 @@ export const Navbar: React.FC = () => {
                 to="/agent/orders"
                 className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                   isActive('/agent/orders')
-                    ? 'bg-slate-800 text-white border border-slate-700'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                    ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                    : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                 }`}
               >
                 <Truck className="w-4 h-4" />
@@ -130,8 +130,8 @@ export const Navbar: React.FC = () => {
                   to="/admin"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/admin')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <BarChart3 className="w-4 h-4" />
@@ -141,8 +141,8 @@ export const Navbar: React.FC = () => {
                   to="/admin/orders"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/admin/orders')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <Package className="w-4 h-4" />
@@ -152,8 +152,8 @@ export const Navbar: React.FC = () => {
                   to="/admin/zones"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/admin/zones')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <Layers className="w-4 h-4" />
@@ -163,8 +163,8 @@ export const Navbar: React.FC = () => {
                   to="/admin/rate-cards"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/admin/rate-cards')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <CreditCard className="w-4 h-4" />
@@ -174,8 +174,8 @@ export const Navbar: React.FC = () => {
                   to="/admin/agents"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-semibold transition-all ${
                     isActive('/admin/agents')
-                      ? 'bg-slate-800 text-white border border-slate-700'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'bg-[#ECEEF0] text-[#0F172A] border border-[#CBD5E1]'
+                      : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]'
                   }`}
                 >
                   <Users className="w-4 h-4" />
@@ -196,7 +196,7 @@ export const Navbar: React.FC = () => {
               placeholder="Search OS..."
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded px-3 py-1.5 !pl-9 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-slate-500 transition-all font-mono"
+              className="w-full bg-white border border-[#CBD5E1] rounded px-3 py-1.5 !pl-9 text-xs text-[#0F172A] placeholder-slate-400 focus:outline-none focus:border-[#0F172A] transition-all font-mono"
             />
           </div>
 
@@ -207,11 +207,11 @@ export const Navbar: React.FC = () => {
               disabled={isToggling}
               className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-all ${
                 user.agentProfile.isAvailable
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
-                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+                  : 'bg-slate-100 text-slate-600 border-slate-300 hover:bg-slate-200'
               }`}
             >
-              <Power className={`w-3.5 h-3.5 ${user.agentProfile.isAvailable ? 'text-emerald-400' : 'text-slate-500'}`} />
+              <Power className={`w-3.5 h-3.5 ${user.agentProfile.isAvailable ? 'text-emerald-700' : 'text-slate-500'}`} />
               <span>{user.agentProfile.isAvailable ? 'Online' : 'Offline'}</span>
             </button>
           )}
@@ -219,13 +219,13 @@ export const Navbar: React.FC = () => {
           {user ? (
             <div className="flex items-center gap-3">
               <div className="hidden sm:block text-right">
-                <span className="block text-xs font-semibold text-white">{user.name}</span>
-                <span className="text-[10px] text-slate-400 font-mono">{user.email}</span>
+                <span className="block text-xs font-bold text-[#0F172A]">{user.name}</span>
+                <span className="text-[10px] text-[#475569] font-mono">{user.email}</span>
               </div>
 
               <button
                 onClick={handleLogout}
-                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded transition-all"
+                className="p-1.5 text-[#475569] hover:text-[#BA1A1A] hover:bg-[#F1F5F9] rounded transition-all"
                 title="Logout"
               >
                 <LogOut className="w-4 h-4" />

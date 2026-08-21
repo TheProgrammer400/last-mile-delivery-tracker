@@ -32,26 +32,26 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 glass-panel p-8">
+    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F7F9FB]">
+      <div className="max-w-md w-full space-y-6 bg-white border border-[#E2E8F0] rounded-md p-8 shadow-sm">
         <div className="text-center">
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-indigo-600/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4 shadow-lg shadow-indigo-500/10">
-            <User className="w-8 h-8" />
+          <div className="mx-auto w-12 h-12 rounded bg-[#0F172A] flex items-center justify-center text-white font-mono font-bold mb-3 shadow-xs">
+            <User className="w-6 h-6" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-100 tracking-tight">Create Customer Account</h2>
-          <p className="mt-1 text-sm text-slate-400">Register to start placing delivery orders</p>
+          <h2 className="text-xl font-bold text-[#0F172A] tracking-tight">Create Customer Account</h2>
+          <p className="mt-1 text-xs text-[#475569]">Register to start placing delivery orders</p>
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-sm">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-200 rounded text-[#BA1A1A] text-xs font-medium">
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#BA1A1A]" />
             <span>{error}</span>
           </div>
         )}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
               Full Name
             </label>
             <input
@@ -65,7 +65,7 @@ export const Register: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
               Email Address
             </label>
             <input
@@ -79,7 +79,7 @@ export const Register: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
               Phone Number
             </label>
             <input
@@ -93,7 +93,7 @@ export const Register: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#475569] uppercase tracking-wider mb-1">
               Password
             </label>
             <input
@@ -109,16 +109,16 @@ export const Register: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full glass-button-primary flex items-center justify-center gap-2 py-3 mt-6"
+            className="w-full glass-button-primary flex items-center justify-center gap-2 py-2.5 mt-2"
           >
             <span>{isSubmitting ? 'Creating account...' : 'Create Account'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800/80">
+        <div className="text-center text-xs text-slate-500 pt-3 border-t border-[#E2E8F0]">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium">
+          <Link to="/register" className="text-[#0F172A] hover:underline font-bold">
             Sign In
           </Link>
         </div>

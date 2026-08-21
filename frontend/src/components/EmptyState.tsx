@@ -15,12 +15,12 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   icon: Icon = PackageOpen,
 }) => {
   return (
-    <div className="glass-panel p-12 text-center flex flex-col items-center justify-center my-6">
-      <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
-        <Icon className="w-8 h-8" />
+    <div className="bg-white border border-[#E2E8F0] p-12 text-center flex flex-col items-center justify-center my-6 shadow-xs rounded-md">
+      <div className="w-14 h-14 rounded bg-[#F1F5F9] border border-[#E2E8F0] text-[#0F172A] flex items-center justify-center mb-3">
+        <Icon className="w-7 h-7 text-[#0F172A]" />
       </div>
-      <h3 className="text-lg font-semibold text-slate-100 mb-1">{title}</h3>
-      <p className="text-slate-400 text-sm max-w-sm mb-6">{description}</p>
+      <h3 className="text-base font-bold text-[#0F172A] mb-1">{title}</h3>
+      <p className="text-[#475569] text-xs max-w-sm mb-6">{description}</p>
       {action && <div>{action}</div>}
     </div>
   );

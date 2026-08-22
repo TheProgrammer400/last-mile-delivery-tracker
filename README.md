@@ -1,242 +1,314 @@
-# Last-Mile Delivery Tracker & Management Platform
+# 🚚 Last-Mile Delivery Tracker & Management Platform
 
-A production-grade, multi-role last-mile delivery tracking platform built around a dynamic rate-calculation engine, zone-based nearest-agent auto-assignment, an immutable status audit history, and email notifications on every status transition.
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18.2-61DAFB?logo=react)](https://react.dev/)
+[![Express](https://img.shields.io/badge/Express-4.19-000000?logo=express)](https://expressjs.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Neon](https://img.shields.io/badge/Neon-PostgreSQL-00E599?logo=postgresql)](https://neon.tech/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployment-000000?logo=vercel)](https://vercel.com/)
+[![Vitest](https://img.shields.io/badge/Vitest-1.4-6E9F18?logo=vitest)](https://vitest.dev/)
 
----
+A production-grade, enterprise last-mile delivery tracking platform built around a dynamic rate-calculation engine, zone-based nearest-agent auto-assignment, an immutable status audit history, and email notifications on every status transition. 
 
-## 1. Project Overview
-
-Last-mile delivery operations require predictable pricing, robust agent dispatching, and full auditability for every shipment. This system addresses these operational requirements with:
-- **Dynamic Rate Calculation Engine**: Zone-aware (Intra vs Inter-Zone), volumetric weight billing, B2B/B2C rate cards, and COD surcharges without hardcoded rates.
-- **Zone-Based Agent Assignment**: Proximity auto-assignment prioritized by agent home zone, with latitude/longitude distance tiebreaking.
-- **Immutable Status Audit Timeline**: Insert-only history tracking every transition actor and timestamp.
-- **Multi-Role User Portals**: Tailored interfaces for Customers, Delivery Agents, and System Administrators.
-
----
-
-## 2. Key Features
-
-### Must-Have Implementation Features
-- **Role-Based Access Control (RBAC)**: JWT authentication for `CUSTOMER`, `AGENT`, and `ADMIN` roles.
-- **Quote-Then-Confirm Order Flow**: Customers see complete fee breakdown before confirming any order.
-- **Rate Calculation Formula**:
-  $$\text{Volumetric Weight} = \frac{L \times B \times H}{5000}$$
-  $$\text{Chargeable Weight} = \max(\text{Actual Weight}, \text{Volumetric Weight})$$
-- **Admin Configuration Suite**: Full management of Zones, Area-to-Zone mappings, Rate Cards (B2B/B2C × Intra/Inter), and COD surcharges.
-- **Agent Auto-Assignment**: Tiered proximity search (Same Zone → Proximity → Any Available) with HTTP 422 fallback when no agent is online.
-- **Status Lifecycle State Machine**: Enforces legal state progression (`CREATED` → `ASSIGNED` → `PICKED_UP` → `IN_TRANSIT` → `OUT_FOR_DELIVERY` → `DELIVERED` | `FAILED`).
-- **Failed Delivery Reschedule Workflow**: Reschedule failed deliveries to new dates with automatic agent re-assignment.
-- **Notification Engine**: Triggers logged email notifications on every status change.
-- **Admin Status Override**: Allows administrators to override order states with mandatory audit notes.
-
-### Should-Have Enhancements
-- **Rate Card Versioning**: Deactivates old rate cards on update, preserving exact historical pricing snapshots on past orders.
-- **Automated Unit & Integration Test Suite**: 100% test coverage on core business logic using Vitest and Supertest.
-- **Mobile-Responsive Agent View**: Fast, mobile-optimized dashboard for on-the-go status updates and phone availability toggles.
+Fully configured for serverless deployment on **Vercel** with a managed cloud database on **Neon PostgreSQL**.
 
 ---
 
-## 3. Architecture Overview
+## 📋 Table of Contents
+- [System Architecture](#-system-architecture)
+- [Key Features](#-key-features)
+- [Cloud Architecture & Database Migration](#-cloud-architecture--database-migration)
+- [Technology Stack](#-technology-stack)
+- [Project Directory Structure](#-project-directory-structure)
+- [Quickstart & Local Setup](#-quickstart--local-setup)
+- [Deploying to Neon & Vercel](#-deploying-to-neon--vercel)
+- [Environment Variables Reference](#-environment-variables-reference)
+- [Quick Demo Accounts](#-quick-demo-accounts)
+- [Running Tests](#-running-tests)
+- [Architectural Decisions & Trade-offs](#-architectural-decisions--trade-offs)
 
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart TD
+    subgraph Client["Client Layer (Browser)"]
+        UI["React 18 SPA (Vite)
+        • TanStack Query (Server State)
+        • Stitch Light Design System
+        • Role-Gated Routing (RBAC)"]
+    Executing
+    end
+
+    subgraph Vercel["Vercel Edge Network & Serverless Platform"]
+        Static["Vite Static Output
+        (/dist)"]
+        API["Vercel Serverless Function
+        (Express API Adapter - /api/index.ts)"]
+        
+        subgraph DomainServices["Domain Service Layer"]
+            RE["RateEngineService"]
+            ZS["ZoneService"]
+            AS["AssignmentService"]
+            OS["OrderService"]
+            DS["DistanceService"]
+            NS["NotificationService"]
+        end
+    end
+
+    subgraph Database["Database Layer (Neon PostgreSQL)"]
+        NeonPooler["Neon Connection Pooler
+        (PgBouncer - DATABASE_URL)"]
+        NeonDirect["Neon Direct Host
+        (DIRECT_URL)"]
+        DB[(Managed PostgreSQL DB)]
+    end
+
+    UI -->|Static Assets| Static
+    UI -->|HTTPS / REST API /api/v1| API
+    API --> DomainServices
+    DomainServices -->|Prisma Client Singleton| NeonPooler
+    NeonPooler --> DB
+    NeonDirect -->|Schema Migrations| DB
 ```
-┌────────────────────────────────────────────────────────┐
-│                   React SPA (Vite)                     │
-│  - Tailwind CSS Glassmorphic Design System            │
-│  - TanStack Query (React Query) Server State Caching   │
-│  - Role-Gated Routes (Customer / Agent / Admin)        │
-└───────────────────────────┬────────────────────────────┘
-                            │ HTTPS / REST JSON
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│               Node.js / Express API (TypeScript)       │
-│  - Auth & Role Guards (JWT + bcrypt)                   │
-│  - Zod Request Validators                              │
-│  - Service Layer:                                      │
-│    ├─ RateEngineService (Volumetric & Rate Lookup)    │
-│    ├─ ZoneService (Areas, Rates, COD Surcharges)       │
-│    ├─ AssignmentService (Proximity Match)             │
-│    ├─ OrderService (Lifecycle & Reschedule Engine)     │
-│    └─ NotificationService (Email Dispatcher & Log)   │
-└───────────────────────────┬────────────────────────────┘
-                            │ Prisma ORM
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│                   PostgreSQL Database                  │
-│  - Foreign Key Constraints & Relations                 │
-│  - Immutable OrderStatusHistory Table                  │
-└────────────────────────────────────────────────────────┘
-```
 
 ---
 
-## 4. Technology Stack & Rationale
+## ✨ Key Features
 
-| Layer | Technology | Rationale |
+### 📦 Order & Pricing Engine
+- **Quote-Then-Confirm Order Workflow**: Customers see a transparent breakdown before confirming shipments.
+- **Dynamic Pricing Engine**: Calculates pricing based on road distance, chargeable weight (Max of Actual vs. Volumetric Weight: $\frac{L \times B \times H}{5000}$), active rate cards (B2B/B2C $\times$ Intra/Inter-Zone), and COD surcharges without hardcoded rates.
+- **Snapshot Pricing Integrity**: Stores historical fee snapshots (`baseFee`, `weightCharge`, `codSurcharge`, `rateCardIdUsed`) so future rate updates never alter historical invoices.
+
+### 🤖 Intelligent Agent Auto-Assignment
+- **Multi-Tiered Dispatching Algorithm**: Prioritizes available agents in the pickup zone first, then resolves ties by current GPS proximity.
+- **HTTP 422 Graceful Fallback**: Safely handles cases where no delivery agents are online in the area.
+
+### 🔒 Auditability & Security
+- **Immutable Status Lifecycle**: Strict state machine progression (`CREATED` $\rightarrow$ `ASSIGNED` $\rightarrow$ `PICKED_UP` $\rightarrow$ `IN_TRANSIT` $\rightarrow$ `OUT_FOR_DELIVERY` $\rightarrow$ `DELIVERED` / `FAILED`).
+- **Append-Only History**: Insert-only `order_status_histories` audit log preserving actor IDs, timestamps, and notes.
+- **Stateless RBAC Authentication**: Secure JWT + bcrypt authentication for `CUSTOMER`, `AGENT`, and `ADMIN` roles.
+
+### 🔔 Notifications & Fleet Operations
+- **Asynchronous Notifications**: Dispatches logged email updates on every status update via Resend / Nodemailer with fallback mock logging.
+- **Failed Delivery Rescheduling**: Enables customers/admins to reschedule failed deliveries with automatic agent re-assignment.
+
+---
+
+## ☁️ Cloud Architecture & Database Migration
+
+This repository is architected specifically for modern serverless cloud execution:
+
+1. **Neon PostgreSQL Cloud Migration**:
+   - Uses **Neon Serverless PostgreSQL** for database persistence.
+   - Separates connections into a **Pooled Endpoint** (`DATABASE_URL` via PgBouncer in transaction mode) for short-lived serverless function invocations, and a **Direct Endpoint** (`DIRECT_URL`) for Prisma schema management (`prisma db push` / `prisma migrate deploy`).
+   - Implements a serverless-safe `PrismaClient` singleton on `globalThis` to prevent connection pool exhaustion across function warm-restarts.
+
+2. **Vercel Monorepo Serverless Deployment**:
+   - Single unified deployment repository containing both the React 18 SPA (`/frontend`) and the Express REST API (`/backend`).
+   - Serverless entrypoints at `api/index.ts` and `backend/api/index.ts` adapt Express middleware directly into Vercel Serverless Functions.
+   - Unified routing configuration in `vercel.json` proxies `/api/v1/*` and `/health` endpoints to the serverless function while serving the React SPA on all client routes.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology | Purpose & Rationale |
 |---|---|---|
-| **Backend** | Node.js + Express + TypeScript | Lightweight REST server with compile-time type safety for business logic. |
-| **Database** | PostgreSQL + Prisma ORM | Relational constraints for orders, zones, rates, and append-only status histories. |
-| **Auth** | JWT + bcryptjs | Stateless, secure authentication with 24-hour token expiration. |
-| **Frontend** | React 18 + TypeScript + Vite | Fast dev loop, typed API contracts, and high performance. |
-| **Styling** | Tailwind CSS | Sleek glassmorphism dark-mode UI with animated badges and responsive components. |
-| **Data Fetching** | TanStack Query | Caching, loading skeletons, and real-time status updates. |
-| **Notifications** | Resend / Nodemailer / Mock Logger | Flexible dispatcher logging every email to `NotificationLog`. |
-| **Testing** | Vitest + Supertest | Lightweight unit and end-to-end API integration test runner. |
+| **Frontend** | React 18, TypeScript, Vite | High-performance SPA with strict compile-time type safety. |
+| **Styling** | Vanilla CSS, Tailwind CSS, Lucide Icons | Clean Stitch Light Design System with semantic status indicators. |
+| **State Caching** | TanStack Query (React Query) | Server state management, auto-refetching, and UI loading skeletons. |
+| **Backend API** | Node.js, Express, TypeScript | Modular REST API with thin controllers and dedicated domain services. |
+| **ORM & DB** | Prisma ORM, Neon PostgreSQL | Type-safe queries, relational integrity, and connection pooling. |
+| **Authentication** | JWT, bcryptjs | Stateless token-based auth with role-based route guards (`ProtectedRoute`). |
+| **Validation** | Zod | Strict schema validation middleware for API request payloads. |
+| **Testing** | Vitest, Supertest | Fast unit and end-to-end REST API integration testing framework. |
+| **Deployment** | Vercel, Neon Console | Zero-config serverless deployment & managed cloud database hosting. |
 
 ---
 
-## 5. Project Structure
+## 📁 Project Directory Structure
 
 ```
 Last Mile Delivery Tracker/
+├── api/
+│   └── index.ts                 # Root Vercel Serverless Function entrypoint
 ├── backend/
+│   ├── api/
+│   │   └── index.ts             # Backend Vercel Serverless Function handler
 │   ├── prisma/
-│   │   ├── schema.prisma        # Database entities & relations
-│   │   └── seed.ts              # Seeding admin, zones, rate cards, agents, sample orders
+│   │   ├── schema.prisma        # Database models, relations & dual datasource URLs
+│   │   └── seed.ts              # Seeding script for zones, rates, users & sample orders
 │   ├── src/
-│   │   ├── config/              # Environment variables loader
+│   │   ├── config/              # Environment configuration loader
 │   │   ├── controllers/         # HTTP request/response handlers
-│   │   ├── middleware/          # Auth, role guards, error handling, rate limiting
-│   │   ├── routes/              # Express API route declarations
-│   │   ├── services/            # Rate engine, assignment, order lifecycle, notifications
+│   │   ├── middleware/          # Auth, RBAC role guards, error normalizer
+│   │   ├── routes/              # Express API route definitions
+│   │   ├── services/            # Core business logic domain services
+│   │   ├── utils/               # Serverless-safe Prisma singleton & logger
 │   │   ├── validators/          # Zod validation schemas
-│   │   ├── app.ts               # Express app configuration
-│   │   └── server.ts            # HTTP server entrypoint
+│   │   ├── app.ts               # Express application initialization & CORS
+│   │   └── server.ts            # Local HTTP server entrypoint
 │   ├── tests/
-│   │   ├── unit/                # Rate engine, assignment, state machine unit tests
+│   │   ├── unit/                # Rate engine, assignment & state machine unit tests
 │   │   └── integration/         # Supertest REST API integration tests
 │   ├── .env.example
 │   ├── package.json
 │   └── tsconfig.json
 ├── frontend/
 │   ├── src/
-│   │   ├── api/                 # Typed API client methods
-│   │   ├── components/          # StatusBadge, Timeline, Modal, Navbar, Skeleton, EmptyState
-│   │   ├── context/             # AuthContext provider
-│   │   ├── pages/               # Auth, Customer, Agent, Admin pages
+│   │   ├── api/                 # Typed API fetch client with auth interlock
+│   │   ├── components/          # Navigation, StatusBadge, Timeline, Skeletons
+│   │   ├── context/             # AuthContext state provider
+│   │   ├── pages/               # Auth, Customer, Agent & Admin portal views
 │   │   ├── routes/              # ProtectedRoute wrapper
-│   │   ├── types/               # Shared TypeScript interface contracts
-│   │   └── App.tsx
+│   │   └── types/               # Shared TypeScript interface contracts
 │   ├── .env.example
 │   ├── package.json
 │   └── vite.config.ts
-├── docs/
-│   ├── SYSTEM_DESIGN.md         # Prose write-up on core architectural decisions
-│   └── api-docs.md              # REST API reference manual
+├── vercel.json                  # Unified Vercel monorepo deployment configuration
+├── package.json                 # Root dependencies & postinstall Prisma generation
 └── README.md
 ```
 
 ---
 
-## 6. Quickstart / Setup Instructions
+## 🚀 Quickstart & Local Setup
 
 ### Prerequisites
 - **Node.js**: v18+ or v20+
 - **npm**: v9+ or v10+
-- **PostgreSQL**: v14+ running locally or user-space
+- **PostgreSQL**: Local PostgreSQL or a free [Neon](https://neon.tech) cloud database instance.
 
-### Step 1: Clone & Setup Environment
+### 1. Clone the Repository
 ```bash
-git clone <repository_url>
-cd "Last Mile Delivery Tracker"
+git clone https://github.com/TheProgrammer400/last-mile-delivery-tracker.git
+cd "last-mile-delivery-tracker"
 ```
 
-### Step 2: Configure Environment Variables
-Copy `.env.example` to `.env` in both backend and frontend:
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env` in the backend:
 ```bash
 cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
 ```
 
-Ensure `DATABASE_URL` in `backend/.env` points to your PostgreSQL instance:
+Ensure `DATABASE_URL` and `DIRECT_URL` point to your PostgreSQL database:
 ```env
-DATABASE_URL="postgresql://programmer@127.0.0.1:5433/delivery_tracker?schema=public"
+DATABASE_URL="postgresql://user:password@localhost:5432/delivery_tracker?schema=public"
+DIRECT_URL="postgresql://user:password@localhost:5432/delivery_tracker?schema=public"
+JWT_SECRET="super-secret-jwt-key-last-mile-tracker-2026"
+PORT=4000
 ```
 
-### Step 3: Install Dependencies, Migrate & Seed Database
+### 3. Install Dependencies & Seed Database
 ```bash
-# Setup Backend
-cd backend
+# Install root & workspace packages
 npm install
+cd backend && npm install
+cd ../frontend && npm install
+
+# Sync Database Schema & Seed Data
+cd ../backend
 npx prisma db push
-npm run db:seed
+npx prisma db seed
+```
 
-# Setup Frontend
-cd ../frontend
-npm install
+### 4. Run Locally
+Run backend and frontend dev servers in separate terminals:
+
+```bash
+# Terminal 1: Start Backend API (http://localhost:4000)
+cd backend && npm run dev
+
+# Terminal 2: Start Frontend Application (http://localhost:5173)
+cd frontend && npm run dev
 ```
 
 ---
 
-## 7. Running the Application
+## 🌐 Deploying to Neon & Vercel
 
-### Start Backend API Server
+### Step 1: Provision Managed Database on Neon
+1. Create a free PostgreSQL database project at [neon.tech](https://neon.tech).
+2. Copy your **Pooled Connection String** (`DATABASE_URL`) and **Direct Connection String** (`DIRECT_URL`).
+
+### Step 2: Apply Migrations & Seed Neon
 ```bash
 cd backend
-npm run dev
-# Server running at http://localhost:4000
+
+# Run schema push against Neon
+DATABASE_URL="<NEON_POOLED_URL>" DIRECT_URL="<NEON_DIRECT_URL>" npx prisma db push
+
+# Seed default admin, zones, rate cards & demo accounts
+DATABASE_URL="<NEON_POOLED_URL>" npx prisma db seed
 ```
 
-### Start Frontend Application
-```bash
-cd frontend
-npm run dev
-# Application running at http://localhost:5173
-```
+### Step 3: Deploy on Vercel
+1. Import your GitHub repository into [Vercel](https://vercel.com/dashboard).
+2. In **Environment Variables**, add the following keys:
+   - `DATABASE_URL`: Your Neon Pooled Connection String
+   - `DIRECT_URL`: Your Neon Direct Connection String
+   - `JWT_SECRET`: `super-secret-jwt-key-last-mile-tracker-2026`
+   - `NODE_ENV`: `production`
+   - `VITE_API_BASE_URL`: `/api/v1`
+3. Click **Deploy**. Vercel will build the frontend SPA and backend serverless function automatically.
 
 ---
 
-## 8. Quick Demo Accounts
+## 🔑 Environment Variables Reference
 
-The login screen includes 1-click quick demo buttons:
-- **Admin**: `admin@delivery.com` / `admin123`
-- **Customer**: `customer@example.com` / `customer123`
-- **Delivery Agent**: `agent1@delivery.com` / `agent123`
+| Variable | Scope | Description |
+|---|---|---|
+| `DATABASE_URL` | Backend | Neon **Pooled** PostgreSQL connection string (with `-pooler`) |
+| `DIRECT_URL` | Backend | Neon **Direct** unpooled connection string (for migrations) |
+| `JWT_SECRET` | Backend | Secret key used for signing & verifying JWT auth tokens |
+| `PORT` | Backend | Server port (default `4000` for local dev) |
+| `NODE_ENV` | Backend | Environment mode (`development` / `production`) |
+| `CORS_ORIGIN` | Backend | CORS allowed origin header |
+| `VITE_API_BASE_URL` | Frontend | API base URL (local: `http://localhost:4000/api/v1`, Vercel: `/api/v1`) |
 
 ---
 
-## 9. Running Tests
+## ⚡ Quick Demo Accounts
 
-### Backend Unit Tests (Rate Engine, Assignment, Lifecycle)
+The login interface includes 1-click Quick Demo logins pre-seeded into the database:
+
+| Role | Email | Password | Access Rights |
+|---|---|---|---|
+| **Administrator** | `admin@delivery.com` | `admin123` | Master order overview, Fleet management, Zone & Area setup, Rate Card & COD Surcharge configuration |
+| **Customer** | `customer@example.com` | `customer123` | Create multi-step shipment quotes, order tracking, status timeline, failed order rescheduling |
+| **Delivery Agent** | `agent1@delivery.com` | `agent123` | Mobile-optimized delivery dashboard, online/offline availability toggle, legal status updates |
+
+---
+
+## 🧪 Running Tests
+
+The test suite validates rate engine calculations, agent auto-assignment logic, lifecycle state machine constraints, and REST API endpoints.
+
 ```bash
+# Run unit & integration test suite
 cd backend
-npm run test:unit
-```
+npm test
 
-### Backend Integration Tests (REST Endpoints & Security)
-```bash
-cd backend
-npm run test:integration
-```
-
-### TypeScript Type Checking
-```bash
-npm --prefix backend run typecheck
-npm --prefix frontend run typecheck
+# Run TypeScript typechecks across both packages
+cd backend && npm run typecheck
+cd frontend && npm run typecheck
 ```
 
 ---
 
-## 10. Environment Variable Reference
+## 📐 Architectural Decisions & Trade-offs
 
-### Backend (`backend/.env`)
-- `DATABASE_URL`: PostgreSQL connection string.
-- `PORT`: Port number for Express server (default `4000`).
-- `JWT_SECRET`: Secret key used for signing authentication tokens.
-- `CORS_ORIGIN`: Allowed origin for CORS headers (default `http://localhost:5173`).
-- `RESEND_API_KEY`: API key for Resend email provider (optional).
-- `SMTP_HOST`: Host for Nodemailer SMTP fallback (optional).
+1. **Structured Area-to-Zone Mapping vs Free-Text Geocoding**:
+   - *Decision*: Delivery areas are mapped to parent zones in the database.
+   - *Trade-off*: Requires initial zone setup by administrators.
+   - *Benefit*: Eliminates third-party geocoding API rate limits/costs while ensuring deterministic Intra-zone vs Inter-zone pricing calculations.
 
-### Frontend (`frontend/.env`)
-- `VITE_API_BASE_URL`: Base API endpoint URL (default `http://localhost:4000/api/v1`).
+2. **Serverless Singleton Connection Management**:
+   - *Decision*: Attached `PrismaClient` to `globalThis` and routed runtime queries to Neon's PgBouncer pooler.
+   - *Benefit*: Prevents database connection limit exhaustion under high-concurrency serverless invocations on Vercel.
 
----
-
-## 11. Design Trade-offs & Decisions
-
-1. **Structured Area-to-Zone Mapping vs Free-Text Address Geocoding**:
-   *Trade-off*: Requires administrative area creation.
-   *Decision*: Solves geocoding ambiguity and allows exact pricing and same-zone agent matching without third-party geocoding API costs.
-2. **Snapshot Pricing on Order Creation**:
-   *Decision*: Order tables store snapshot copies of `baseFee`, `weightCharge`, `codSurcharge`, and `rateCardIdUsed` so future rate changes never mutate past invoices.
-3. **Append-Only `OrderStatusHistory`**:
-   *Decision*: No API route or service function ever performs `.update()` or `.delete()` on history rows, guaranteeing an immutable audit trail.
+3. **Append-Only Audit History**:
+   - *Decision*: `order_status_histories` table is strictly insert-only. No service or API route exposes update/delete operations, providing an immutable audit trail.
